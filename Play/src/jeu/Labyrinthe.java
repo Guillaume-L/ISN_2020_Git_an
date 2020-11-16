@@ -1,3 +1,4 @@
+
 package jeu;
 
 public class Labyrinthe {int longueur; int largeur;
