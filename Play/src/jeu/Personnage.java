@@ -1,6 +1,6 @@
 package jeu;
 
-public class Personnage {
+public abstract class Personnage {
 	
 	
 	
