@@ -4,5 +4,30 @@ Scénario Nominal:
 3-Déplacement des personnages
 4-Fin si le héros marche sur la case trésor
 
+Scénarios B: Scénarios ayant pour début commun: le héros se situe sur une case quelconque et où le joueur a la possibilité d'effectuer une action. 
+
+B1.1: Le héros est sur une case où il ne bouge pas. Aucun évènement ne se passe jusqu'à
+la prochaine action du joueur. Retour début B.
+
+B1.2: Le héros est sur une case où il ne bouge pas. Un monstre arrive sur la case du héros.
+
+	B1.2.1: Le héros perd des points de vie. Le monstre disparait. Le héros reste sur sa case jusqu'à la prochaine action du joueur. Retour début B.
+	B1.2.2: Le héros perd des points de vie, ce qui fait qu'ils soient à zéro. Le héros meurt. Fin de partie.
+  
+B2.1: Le héros se déplace sur une case adjacente du choix du joueur. 
+
+	B2.1.1: La case choisie est vide. Le heros se retrouve sur cette nouvelle case jusqu'à la prochaine action du joueur. Retour début B.
+	B2.1.2: La case choisie est un mur. Le héros reste sur sa case actuelle. Un message peut être affiché disant que le héros ne peut pas se déplacer à travers un mur. 
+		Le héros reste sur sa case jusqu'à la prochaine action du joueur. Retour début B.
+	B2.1.3: La case choisie est une case magique/spéciale. Le héros se déplace sur cette case et obtient les bonus associés à la case magique/spéciale. 
+		Le héros reste sur sa case jusqu'à la prochaine action du joueur. Retour début B.
+	B2.1.4: La case choisie est une case contenant déjà un monstre. 
+	
+		B2.1.4.1: Le héros perd des points de vie mais ne meurt pas. Le monstre disparait et le héros se retrouve sur cette nouvelle case.
+			  Le héros reste sur sa case jusqu'à la prochaine action du joueur. Retour début B.
+		B2.1.4.2: Le héros perd des points de vie, ils sont à zéros. Le héros meurt fin de partie. 
+	
+		
+	
 
 
