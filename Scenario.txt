@@ -27,7 +27,38 @@ B2.1: Le héros se déplace sur une case adjacente du choix du joueur.
 			  Le héros reste sur sa case jusqu'à la prochaine action du joueur. Retour début B.
 		B2.1.4.2: Le héros perd des points de vie, ils sont à zéros. Le héros meurt fin de partie. 
 	
+Scénarios C:
+- Début commun à tous les scénario C: Le héro et au moins 1 monstre sont sur des cases distinctes.
+Le héro et le monstre ont au moins 1 point de vie chacun.
+Le joueur a la possibilité de réaliser une action avec le héro: rester sur place, se déplacer ou attaquer
+
+C1 : Le joueur déplace ou immobilise le héro. On revient au scénario C.
+
+C2 : Le joueur demande à son héro d'attaquer. -> Le moniteur affiche une image à la position du héro qui représente un coup d'épée.
+
+	C2.1 : Le héro n'est adjacent à aucune case (haut, bas, droite, gauche) occupée par un monstre.
+		-> Retour début C.
+	C2.2 : Le héro est adjacent à des cases (haut, bas, droite, gauche) dont une seul d'entre-elles est occupée par un monstre.
+		-> Le monstre perd 1 point de vie.
+		-> Le nombre de point de vie du monstre atteint 0. Il est considérer comme mort.
+		-> Un sprite de monstre mort remplace le sprite du monstre vivant.
+		-> Retour début C.
+	C2.3 : Le héro est adjacent à des cases (haut, bas, droite, gauche) dont au moins 2 d'entre-elles est occupée par des monstre.
 		
-	
+		C2.3.1 : Le héro ne s'est jamais déplacé.
+			-> Choisi aléatoirement, un des monstre noté M1 sur les cases adjacentes, noté M1, perd 1 point de vie et meurt.
+			-> Un sprite de monstre mort remplace le sprite de monstre vivant à la position de M1.
+			-> Retour début C.
 
+		C2.3.2 : Le héro s'est déja déplacé au moins 1 fois. On note mouv son déplacement parmi (haut, bas, droite, gauche).
 
+			C2.3.2.1 : Un monstre, noté M2, est situé sur la case mouv adjacente à la position du héro.
+				-> Le monstre M2 perd 1 point de vie.
+				-> Le nombre de point de vie du monstre M2 atteint 0. Il est considérer comme mort.
+				-> Un sprite de monstre mort remplace le sprite du monstre vivant de M2.
+				-> Retour début C.
+			
+			C2.3.2.1 : Aucun mosntre des monstres adjacents aux héros n'est situé sur la case mouv adjacente à la position du héro.
+				-> Choisi aléatoirement, un des monstre noté M3 sur les cases adjacentes, noté M3, perd 1 point de vie et meurt.
+				-> Un sprite de monstre mort remplace le sprite de monstre vivant à la position de M3.
+				-> Retour début C.
