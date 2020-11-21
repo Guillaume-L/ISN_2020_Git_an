@@ -13,7 +13,7 @@ public abstract class Personnage {
 		else if (x>L.longueur || y>L.largeur) {
 			return false;
 		} 
-		else if (L.creer_lab()[x][y] == 1){ 
+		else if (L.laby[x][y] == 1){ 
 			return false;
 		}
 		else {
