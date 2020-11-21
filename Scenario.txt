@@ -2,7 +2,17 @@ Scénario Nominal:
 1-Création du labyrinthe à partir d'un fichier
 2-Postionnement aléatoire des monstres (sauf case départ/arrivée)
 3-Déplacement des personnages
-4-Fin si le héros marche sur la case trésor
+4-Fin si le héros marche sur la case trésor ou meurt.
+
+Scénario A : Ce scénario alternatif commence à l'étape 1.
+A 1-Le joueur choisit de créer son labyrinthe
+A 2-Il indique les dimensions du labyrinthe
+A 3-Il indique l'emplacement de ses murs
+A 4-Il indique l'emplacement de départ et la case arrivée
+A 5-Il indique le nombre de monstres.
+retour étape 2
+
+
 
 Scénarios B: Scénarios ayant pour début commun: le héros se situe sur une case quelconque et où le joueur a la possibilité d'effectuer une action. 
 
