@@ -1,9 +1,9 @@
 package jeu;
 
 public abstract class Personnage {
-	private int point_de_vie; 
-	private int position_x;
-	private int position_y;
+	public int point_de_vie; 
+	public int position_x;
+	public int position_y;
 	
 	public boolean deplacement(Labyrinthe L, int x, int y) {
 		if (((Math.abs(x-position_x)!=1) && (Math.abs(y-position_y)!=0)) || 
@@ -19,5 +19,8 @@ public abstract class Personnage {
 		else {
 			return true;
 		}
+	}
+	public boolean testVivant() {
+		return this.point_de_vie > 0;
 	}
 }

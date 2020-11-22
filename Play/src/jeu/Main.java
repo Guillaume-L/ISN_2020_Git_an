@@ -1,21 +1,26 @@
 package jeu;
 
+import java.util.Scanner;
+
+
+
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-Monstre Ted=new Monstre();
+		Labyrinthe labyrinthe = new Labyrinthe(10,10);
+		Heros hero = new Heros();
+		Game jeu = new Game(labyrinthe, hero);
+		jeu.randomPopulationMonstre(5);
+		Scanner scan = new Scanner(System.in);
+		while (jeu.hero.testVivant()) {
+			jeu.affichage();
+			System.out.println("Deplacement z/q/s/d");
+			String commande = scan.nextLine(); // Lire la saisie de l'utilisateur
+			jeu.deplacementHero(commande);
+			jeu.resoudreCombat();
+		}
+			
+		scan.close();
+	}
 
-Labyrinthe test=new Labyrinthe(4,6);
-int[][] a=test.laby;
-
-for (int i=0;i<a.length;i++) {
-	System.out.println(" ");
-	for (int j=0;j<a[i].length;j++)
-	{System.out.print(a[i][j]);}}
-
-Heros H=new Heros();
-System.out.println(H.pdv);
-H.vivacite(100);
-System.out.println(H.pdv);
-}}
+}
