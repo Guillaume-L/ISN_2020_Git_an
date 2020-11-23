@@ -12,12 +12,23 @@ public class Game {
 		this.labyrinthe.laby[hero.position_y][hero.position_x] = 2;
 		this.hero = hero;
 		this.populationMonstre = populationMonstre;
+		
 	}
 	public Game(Labyrinthe labyrinthe, Heros hero) {
 		this.labyrinthe = labyrinthe;
 		this.labyrinthe.laby[hero.position_y][hero.position_x] = 2 ;
 		this.hero = hero;
 		this.populationMonstre = new ArrayList<Monstre>();
+	}
+	public Game(Heros hero)
+	{Labyrinthe labyrinthe=new Labyrinthe();
+	try {
+	this.labyrinthe = labyrinthe;
+	this.labyrinthe.laby[hero.position_y][hero.position_x] = 2 ;
+	this.hero = hero;
+	this.populationMonstre = new ArrayList<Monstre>();}
+	catch(Exception e) {System.out.println("Le labyrinthe ne peut être créer");}
+	
 	}
 	public void deplacementHero(String mouvement) {
 		switch (mouvement) {
@@ -30,7 +41,7 @@ public class Game {
 				else {
 					if (this.labyrinthe.laby[this.hero.position_y - 1][this.hero.position_x] == 3) {
 						System.out.println("Défaite : héro tué par un monstre");
-						this.hero.point_de_vie -= 1;
+						this.hero.point_de_vie = 0;
 					}
 					else {
 					System.out.println("Le héro bloque contre un mur");
@@ -115,7 +126,7 @@ public class Game {
 	public void resoudreCombat() {
 		for (Monstre monstre : this.populationMonstre) {
 			if ((this.hero.position_x == monstre.position_x) && (this.hero.position_y == monstre.position_y)) {
-				this.hero.point_de_vie -= 1;
+				this.hero.point_de_vie = 0;
 			}
 		}
 	}
