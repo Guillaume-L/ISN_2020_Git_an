@@ -1,4 +1,4 @@
-Scénario Nominal:
+Scénario Nominal(à refaire pour séance prochaine):
 1-Création du labyrinthe à partir d'un fichier
 2-Postionnement aléatoire des monstres (sauf case départ/arrivée)
 3-Déplacement des personnages
