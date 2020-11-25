@@ -10,7 +10,7 @@ public class Main {
 		//Labyrinthe labyrinthe = new Labyrinthe(10,10);
 
 		Heros hero = new Heros();
-		Game jeu = new Game(hero);
+		Game jeu = new Game(new Labyrinthe(12,12), hero );
 		jeu.randomPopulationMonstre(5);
 		Scanner scan = new Scanner(System.in);
 		while (jeu.hero.testVivant()) {
