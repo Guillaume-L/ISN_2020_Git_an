@@ -76,7 +76,7 @@ public class Game {
 						positionX = Integer.parseInt(decoupe[1]);
 						positionY = Integer.parseInt(decoupe[2]);
 	//					constructeur de Mur à définir
-						labyrinthe.laby[positionX][positionY] = 1;
+						labyrinthe.laby[positionY][positionX] = 1;
 						break;
 					case "sol":
 						positionX = Integer.parseInt(decoupe[1]);
@@ -103,14 +103,17 @@ public class Game {
 						positionY = Integer.parseInt(decoupe[2]);
 	//					constructeur de Mur à définir
 					break;
-					default :	
+					default :
 				}
 			}
 			buffer.close();
 			if (HeroDefini) {
 				if (labyrintheDefini) {
 					this.labyrinthe = labyrinthe;
-					this.labyrinthe.laby[hero.position_y][hero.position_x] = 2;	
+					if (this.labyrinthe.laby[hero.position_y][hero.position_x] == 0)
+						this.labyrinthe.laby[hero.position_y][hero.position_x] = 2;
+					else
+						throw new Exception("Erreur : hero est dans un mur");
 					this.hero = hero;	
 					this.populationMonstre = new ArrayList<Monstre>();
 					for (Monstre monstre : populationMonstre) {
@@ -119,7 +122,7 @@ public class Game {
 							this.populationMonstre.add(monstre);
 						}
 						else
-							throw new Exception("Erreur : 2 personnages sont sur la même case");
+							throw new Exception("Erreur : 2 personnages sont sur la même case ou 1 personnage est dans un mur");
 					}
 					this.populationMonstre = populationMonstre;							
 				}
