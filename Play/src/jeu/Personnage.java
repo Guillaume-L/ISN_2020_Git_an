@@ -6,7 +6,7 @@ public abstract class Personnage {
 	public int position_y;
 	public String visuel;
 	
-	public boolean deplacement(Labyrinthe L, int x, int y) {
+	public boolean test_deplacement(Labyrinthe L, int x, int y) {
 		if (((Math.abs(x-position_x)!=1) && (Math.abs(y-position_y)!=0)) || 
 				((Math.abs(x-position_x)!=0) && (Math.abs(y-position_y)!=1))) {
 			return false;	
