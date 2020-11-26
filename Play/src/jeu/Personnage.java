@@ -4,6 +4,7 @@ public abstract class Personnage {
 	public int point_de_vie; 
 	public int position_x;
 	public int position_y;
+	public String visuel;
 	
 	public boolean deplacement(Labyrinthe L, int x, int y) {
 		if (((Math.abs(x-position_x)!=1) && (Math.abs(y-position_y)!=0)) || 
@@ -13,7 +14,7 @@ public abstract class Personnage {
 		else if (x>L.longueur || y>L.largeur) {
 			return false;
 		} 
-		else if (L.laby[x][y] == 1){ 
+		else if (L.laby[x][y].visuel == "1"){ 
 			return false;
 		}
 		else {

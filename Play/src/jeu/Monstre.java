@@ -6,6 +6,7 @@ public class Monstre extends Personnage{
 		this.point_de_vie = point_de_vie;
 		this.position_x = position_x;
 		this.position_y = position_y;
+		this.visuel = "E";
 	}
 	
 
