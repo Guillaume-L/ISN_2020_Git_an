@@ -27,15 +27,15 @@ public class Game {
 		this.hero = hero;
 		this.populationMonstre = new ArrayList<Monstre>();
 	}
-//	public Game(Heros hero) {
-//		Labyrinthe labyrinthe = new Labyrinthe();
-//		try {
-//		this.labyrinthe = labyrinthe;
-//		this.labyrinthe.laby[hero.position_y][hero.position_x].population.add(hero);
-//		this.hero = hero;
-//		this.populationMonstre = new ArrayList<Monstre>();}
-//		catch(Exception e) {System.out.println("Le labyrinthe ne peut être créer");}
-//	}
+	public Game(Heros hero) {
+		Labyrinthe labyrinthe = new Labyrinthe();
+		try {
+		this.labyrinthe = labyrinthe;
+		this.labyrinthe.laby[hero.position_y][hero.position_x].population.add(hero);
+		this.hero = hero;
+		this.populationMonstre = new ArrayList<Monstre>();}
+		catch(Exception e) {System.out.println("Le labyrinthe ne peut être créer");}
+	}
 //	public Game(String nomFichier) {
 //		try {
 //			ArrayList<Monstre> populationMonstre = new ArrayList<Monstre>();
@@ -249,3 +249,4 @@ public class Game {
 		}
 	}
 }
+
