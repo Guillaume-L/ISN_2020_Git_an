@@ -9,4 +9,8 @@ public class Magique extends Parcelle{
 		this.visuel = "M";
 		this.population = new ArrayList<Personnage>();
 	}
+	public String declenchement() {
+		System.out.println("La trésor est désormais visible");
+		return new String("magique");
+	}
 }

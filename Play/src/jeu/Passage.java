@@ -14,4 +14,7 @@ public class Passage extends Parcelle{
 		this.positionArriveeY = positionArriveeY;
 		this.population = new ArrayList<Personnage>();
 	}
+	public String declenchement() {
+		return new String("passage " + positionArriveeX + " " + positionArriveeY);
+	}
 }

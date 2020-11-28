@@ -8,9 +8,16 @@ public abstract class Parcelle {
 	ArrayList<Personnage> population;
 	
 	public boolean testPresence() {
-		if (population.isEmpty())
-			return false;
-		else
-			return true;
+		for (Personnage personnage : this.population) {
+			if (personnage.testVivant())
+				return true;
+		}
+		return false;
+
+	}
+	public String declenchement() {
+		return new String("rien");
+	}
+	public void reveler() {
 	}
 }
