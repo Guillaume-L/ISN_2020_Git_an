@@ -9,8 +9,8 @@ import java.io.IOException;
 public class TestConstructeurGame {
 
 	public static void main(String[] args) throws IOException {
-		Game game = new Game("niveau1");
-		game.affichage();
+//		Game game = new Game("niveau1");
+//		game.affichage();
 
 	}
 

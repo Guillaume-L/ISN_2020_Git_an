@@ -24,4 +24,7 @@ public abstract class Personnage {
 	public boolean testVivant() {
 		return this.point_de_vie > 0;
 	}
+	public void subirDegat() {
+			this.point_de_vie = Math.max(0, this.point_de_vie - 1);
+	}
 }

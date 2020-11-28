@@ -9,5 +9,4 @@ public class Sol extends Parcelle{
 		this.visuel = "-";
 		this.population = new ArrayList<Personnage>();
 	}
-
 }
