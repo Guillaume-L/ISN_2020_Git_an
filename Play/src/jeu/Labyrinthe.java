@@ -7,7 +7,7 @@ public class Labyrinthe {int longueur; int largeur; Parcelle[][] laby;
 		longueur=plongueur;
 		largeur=plargeur;
 	
-		Parcelle[][] lab = new Parcelle[longueur][largeur];
+		Parcelle[][] lab = new Parcelle[largeur][longueur];
 		for (int i=0;i<lab.length;i++) {
 			for (int j=0;j<lab[i].length;j++)
 			{if (i==0 || j==0 || i==lab.length-1 || j==lab[i].length-1) {
@@ -59,7 +59,7 @@ Labyrinthe(){
     	err=true;
     }
    if(err==false) {
-	Parcelle[][] lab=new Parcelle[longueur][largeur];
+	Parcelle[][] lab=new Parcelle[largeur][longueur];
 	for (int i=0;i<lab.length;i++) {
 		for (int j=0;j<lab[i].length;j++)
 		{if (i==0 || j==0 || i==lab.length-1 || j==lab[i].length-1)
@@ -80,7 +80,7 @@ while(fin.equals(mur_x)!=true){
 		 mur_y = myObj1.nextLine();
 		 try {ord=Integer.parseInt(mur_y);}
 		 catch(Exception e) {System.out.println("paramètre non valide");}
-		lab[abs][ord]=new Mur();
+		lab[ord][abs]=new Mur();
 		 }
 		 catch(Exception e) {System.out.println("paramètre1 non valide");}
 	 }
@@ -136,7 +136,7 @@ laby=lab;}}
 					 catch(Exception e) {
 						 System.out.println("paramètre non valide");
 						 }
-					 lab[abs][ord]=new Mur();
+					 lab[ord][abs]=new Mur();
 					 }
 					 catch(Exception e) {System.out.println("paramètre non valide");}
 				 }

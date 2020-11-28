@@ -9,13 +9,6 @@ public class Main {
 	public static void main(String[] args) {
 
 		//Labyrinthe labyrinthe = new Labyrinthe(10,10);
-
-		
-		
-		
-		
-
-
 		Scanner scan = new Scanner(System.in);
 		String choix = new String();
 		String nomFichier = new String();
@@ -28,9 +21,7 @@ public class Main {
 				choix = scan.nextLine().toLowerCase();
 				switch (choix) {
 					case "oui":
-						Heros hero = new Heros();
 						jeu = new Game();
-						jeu.randomPopulationMonstre(5);
 					break;
 					case "non":
 						boolean nomFichierInValide = true;

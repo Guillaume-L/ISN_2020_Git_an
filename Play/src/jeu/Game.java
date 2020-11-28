@@ -61,7 +61,7 @@ public class Game {
 			 ord=Integer.parseInt(ordi);
 			
 		
-		if(labyrinthe.laby[abs][ord].visuel.equals("-")) {err=true;}
+		if(labyrinthe.laby[ord][abs].visuel.equals("-")) {err=true;}
 		else {System.out.println("position occupée par un mur");}}
 		catch(Exception e) {System.out.println("paramètre2 non valide");}}
 		err=false;
@@ -75,7 +75,7 @@ public class Game {
 			nbi= myObj.nextLine();
 		
 			try {nb_monstres=Integer.parseInt(nbi);
-			if(nb_monstres>-1) {if(place_dispo-1-nb_monstres<0) {System.out.println("pas assez de places");}
+			if(nb_monstres>-1) {if(place_dispo-2-nb_monstres<0) {System.out.println("pas assez de places");}
 			else {err=true;}}else{System.out.println("il ne peut pas y avoir un nombre négatifs de monstres");}}
 			catch(Exception e) {System.out.println("paramètre3 non valide");}
 			}
@@ -104,9 +104,9 @@ public class Game {
 			 ordi = myObj.nextLine();
 			 ord=Integer.parseInt(ordi);
 			
-			 if(!labyrinthe.laby[abs][ord].visuel.equals("1")&& labyrinthe.laby[abs][ord].visible) {
-			 if(!labyrinthe.laby[abs][ord].testPresence()) {
-				 labyrinthe.laby[abs][ord]=new Tresor(false);
+			 if(!labyrinthe.laby[ord][abs].visuel.equals("1")&& labyrinthe.laby[ord][abs].visible) {
+			 if(!labyrinthe.laby[ord][abs].testPresence()) {
+				 labyrinthe.laby[ord][abs]=new Tresor(false);
 						 err=true;
 			 }
 			 else {System.out.println("case occupée");	}}
@@ -125,9 +125,9 @@ public class Game {
 		 System.out.println("ordonnée de magique ? ");
 		 ordi = myObj.nextLine();
 		 ord=Integer.parseInt(ordi);
-		 if(!labyrinthe.laby[abs][ord].visuel.equals("1")&& labyrinthe.laby[abs][ord].visible) {
-		 if(!labyrinthe.laby[abs][ord].testPresence()) {
-			 labyrinthe.laby[abs][ord]=new Magique();
+		 if(!labyrinthe.laby[ord][abs].visuel.equals("1")&& labyrinthe.laby[ord][abs].visible) {
+		 if(!labyrinthe.laby[ord][abs].testPresence()) {
+			 labyrinthe.laby[ord][abs]=new Magique();
 					 err=true;
 		 }
 		 else {System.out.println("case occupée");	}}
@@ -149,9 +149,9 @@ public class Game {
 		 System.out.println("ordonnée de piège ? ");
 		 ordi = myObj.nextLine();
 		 ord=Integer.parseInt(ordi);
-		 if(labyrinthe.laby[abs][ord].visuel.equals("-") && !labyrinthe.laby[abs][ord].testPresence() && labyrinthe.laby[abs][ord].visible)
+		 if(labyrinthe.laby[ord][abs].visuel.equals("-") && !labyrinthe.laby[ord][abs].testPresence() && labyrinthe.laby[ord][abs].visible)
 		  {
-			 labyrinthe.laby[abs][ord]=new Piege();
+			 labyrinthe.laby[ord][abs]=new Piege();
 					 err=true;
 		 }
 		else {System.out.println("case prise");}}
@@ -172,7 +172,7 @@ this.affichage();
 		 System.out.println("ordonnée de passage ? ");
 		 ordi = myObj.nextLine();
 		 ord=Integer.parseInt(ordi);
-		 if(labyrinthe.laby[abs][ord].visuel.equals("-") && !labyrinthe.laby[abs][ord].testPresence() && labyrinthe.laby[abs][ord].visible)
+		 if(labyrinthe.laby[ord][abs].visuel.equals("-") && !labyrinthe.laby[ord][abs].testPresence() && labyrinthe.laby[ord][abs].visible)
 		  {System.out.println("Abscisse de sortie du passage? ");
 			absi= myObj.nextLine();
 			try {abs_sortie=Integer.parseInt(absi);
@@ -181,8 +181,8 @@ this.affichage();
 			 ordi = myObj.nextLine();
 			 ord_sortie=Integer.parseInt(ordi);
 			if (abs!=abs_sortie || ord!=ord_sortie) {
-				if(labyrinthe.laby[abs_sortie][ord_sortie].visuel.equals("-") && !labyrinthe.laby[abs_sortie][ord_sortie].testPresence() && labyrinthe.laby[abs_sortie][ord_sortie].visible)
-				{labyrinthe.laby[abs][ord]=new Passage(abs_sortie,ord_sortie);
+				if(labyrinthe.laby[ord_sortie][abs_sortie].visuel.equals("-") && !labyrinthe.laby[ord_sortie][abs_sortie].testPresence() && labyrinthe.laby[ord_sortie][abs_sortie].visible)
+				{labyrinthe.laby[ord][abs]=new Passage(abs_sortie,ord_sortie);
 				 err=true;
 			}
 				else	{System.out.println("case prise ");}	 
@@ -416,7 +416,7 @@ this.affichage();
 	public void resoudreCombat(int positionX, int positionY) {
 		if (this.labyrinthe.laby[positionY][positionX].population.size() > 0 ) {
 			this.hero.subirDegat();
-			System.out.print("Monstre tué, mais le héro a perdu 1 point de vie lors du combat");
+			System.out.print("Monstre tué, mais le héro a perdu des points de vie lors du combat");
 			for (int i = 0; i < this.populationMonstre.size(); i++) {
 				if ((this.populationMonstre.get(i).position_x == positionX) && (this.populationMonstre.get(i).position_y == positionY)) {
 					this.populationMonstre.get(i).subirDegat();
