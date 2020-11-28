@@ -10,9 +10,9 @@ public class Main {
 		//Labyrinthe labyrinthe = new Labyrinthe(10,10);
 
 		Heros hero = new Heros();
-		Game jeu = new Game( hero );
-		jeu.randomPopulationMonstre(5);
-		System.out.println(hero.visuel);
+		Game jeu = new Game( );
+		
+		
 		Scanner scan = new Scanner(System.in);
 		while (jeu.hero.testVivant()) {
 			jeu.affichage();

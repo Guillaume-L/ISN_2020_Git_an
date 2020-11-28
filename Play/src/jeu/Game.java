@@ -3,6 +3,7 @@ package jeu;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Game {
 	Labyrinthe labyrinthe;
@@ -22,19 +23,179 @@ public class Game {
 		
 	}
 	public Game(Labyrinthe labyrinthe, Heros hero) {
+		
 		this.labyrinthe = labyrinthe;
 		this.labyrinthe.laby[hero.position_y][hero.position_x].population.add(hero) ;
 		this.hero = hero;
 		this.populationMonstre = new ArrayList<Monstre>();
 	}
-	public Game(Heros hero) {
+	public Game() {
+		boolean err=false;
+	
 		Labyrinthe labyrinthe = new Labyrinthe();
-		try {
 		this.labyrinthe = labyrinthe;
+		int compteur=0;
+		this.affichage();
+		for (int i=0;i<labyrinthe.laby.length;i++) {
+			for (int j=0;j<labyrinthe.laby[i].length;j++)
+			{if (labyrinthe.laby[i][j].visuel.equals("1")) {compteur=compteur+1;}}}
+		int place_dispo=labyrinthe.longueur*labyrinthe.largeur-compteur;
+		if (place_dispo==0) {System.out.println("pas de places dans le labyrinthe");}
+		else {
+			Scanner myObj = new Scanner(System.in); 
+			
+			String absi="";
+			String ordi="";
+			
+			int abs=0;
+			int ord=0;
+		while(!err) {
+			System.out.println("Abscisse du héros? ");
+			absi= myObj.nextLine();
+		
+			try {abs=Integer.parseInt(absi);
+			
+			 System.out.println("ordonnée du héros ? ");
+			 ordi = myObj.nextLine();
+			 ord=Integer.parseInt(ordi);
+			
+		
+		if(labyrinthe.laby[abs][ord].visuel.equals("-")) {err=true;}
+		else {System.out.println("position occupée par un mur");}}
+		catch(Exception e) {System.out.println("paramètre2 non valide");}}
+		err=false;
+		place_dispo=place_dispo-1;
+		
+		Heros hero=new Heros(1,abs,ord);
+		String nbi;
+		int nb_monstres=0;
+		while(!err) {
+			System.out.println("Nombre de monstres? ");
+			nbi= myObj.nextLine();
+		
+			try {nb_monstres=Integer.parseInt(nbi);
+			if(nb_monstres>-1) {if(place_dispo-1-nb_monstres<0) {System.out.println("pas assez de places");}
+			else {err=true;}}else{System.out.println("il ne peut pas y avoir un nombre négatifs de monstres");}}
+			catch(Exception e) {System.out.println("paramètre3 non valide");}
+			}
+			
+			
+		try {
+		
 		this.labyrinthe.laby[hero.position_y][hero.position_x].population.add(hero);
 		this.hero = hero;
-		this.populationMonstre = new ArrayList<Monstre>();}
+		
+		this.populationMonstre = new ArrayList<Monstre>();
+		this.randomPopulationMonstre(nb_monstres);
+		place_dispo=place_dispo-nb_monstres;
+		this.affichage();}
 		catch(Exception e) {System.out.println("Le labyrinthe ne peut être créer");}
+		
+		err=false;
+		
+		while(!err) {
+			System.out.println("Abscisse de la fin? ");
+			absi= myObj.nextLine();
+		
+			try {abs=Integer.parseInt(absi);
+			
+			 System.out.println("ordonnée de la fin ? ");
+			 ordi = myObj.nextLine();
+			 ord=Integer.parseInt(ordi);
+			
+			 if(!labyrinthe.laby[abs][ord].visuel.equals("1")&& labyrinthe.laby[abs][ord].visible) {
+			 if(!labyrinthe.laby[abs][ord].testPresence()) {
+				 labyrinthe.laby[abs][ord]=new Tresor();
+						 err=true;
+			 }
+			 else {System.out.println("case occupée");	}}
+			 else {System.out.println("case mur");}}
+			catch(Exception e) {System.out.println("paramètre4 non valide");}
+	}
+	place_dispo--;
+	this.affichage();
+	err=false;
+	if(place_dispo>0) {while(!err) {
+		System.out.println("Abscisse de magique? ");
+		absi= myObj.nextLine();
+	
+		try {abs=Integer.parseInt(absi);
+		
+		 System.out.println("ordonnée de magique ? ");
+		 ordi = myObj.nextLine();
+		 ord=Integer.parseInt(ordi);
+		 if(!labyrinthe.laby[abs][ord].visuel.equals("1")&& labyrinthe.laby[abs][ord].visible) {
+		 if(!labyrinthe.laby[abs][ord].testPresence()) {
+			 labyrinthe.laby[abs][ord]=new Magique();
+					 err=true;
+		 }
+		 else {System.out.println("case occupée");	}}
+		 else {System.out.println("case prise");}}
+		catch(Exception e) {System.out.println("paramètre5 non valide");}
+		
+	}
+		
+		}
+	place_dispo--;
+	this.affichage();
+	err=false;
+	if(place_dispo>0) {while(!err) {
+		System.out.println("Abscisse de piège? ");
+		absi= myObj.nextLine();
+	
+		try {abs=Integer.parseInt(absi);
+		
+		 System.out.println("ordonnée de piège ? ");
+		 ordi = myObj.nextLine();
+		 ord=Integer.parseInt(ordi);
+		 if(labyrinthe.laby[abs][ord].visuel.equals("-") && !labyrinthe.laby[abs][ord].testPresence() && labyrinthe.laby[abs][ord].visible)
+		  {
+			 labyrinthe.laby[abs][ord]=new Piege();
+					 err=true;
+		 }
+		else {System.out.println("case prise");}}
+		catch(Exception e) {System.out.println("paramètre6 non valide");}
+		
+	}}
+place_dispo--;
+this.affichage();
+	err=false;
+	int abs_sortie;
+	int ord_sortie;
+	if(place_dispo>1) {while(!err) {
+		System.out.println("Abscisse de passage? ");
+		absi= myObj.nextLine();
+	
+		try {abs=Integer.parseInt(absi);
+		
+		 System.out.println("ordonnée de passage ? ");
+		 ordi = myObj.nextLine();
+		 ord=Integer.parseInt(ordi);
+		 if(labyrinthe.laby[abs][ord].visuel.equals("-") && !labyrinthe.laby[abs][ord].testPresence() && labyrinthe.laby[abs][ord].visible)
+		  {System.out.println("Abscisse de sortie du passage? ");
+			absi= myObj.nextLine();
+			try {abs_sortie=Integer.parseInt(absi);
+			
+			 System.out.println("ordonnée de sortie passage ? ");
+			 ordi = myObj.nextLine();
+			 ord_sortie=Integer.parseInt(ordi);
+			if (abs!=abs_sortie || ord!=ord_sortie) {
+				if(labyrinthe.laby[abs_sortie][ord_sortie].visuel.equals("-") && !labyrinthe.laby[abs_sortie][ord_sortie].testPresence() && labyrinthe.laby[abs_sortie][ord_sortie].visible)
+				{labyrinthe.laby[abs][ord]=new Passage(abs_sortie,ord_sortie);
+				 err=true;
+			}
+				else	{System.out.println("case prise ");}	 
+		 }
+		else {System.out.println("case prise par entrée passage");}}
+		catch(Exception e) {System.out.println("paramètre7 non valide");}
+		
+	}else {System.out.println("coordonnées invalides");}
+		
+		
+	}catch(Exception e) {System.out.println("paramètre8 non valide");}
+	}
+	}
+	}
 	}
 //	public Game(String nomFichier) {
 //		try {

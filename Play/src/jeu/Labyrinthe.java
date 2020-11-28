@@ -63,7 +63,7 @@ int ord=0;
 while(fin.equals(mur_x)!=true){
 	 System.out.println("abscisse du mur ? (tapez fin si vous avez placé tous vos murs) ");
 	 mur_x = myObj.nextLine();
-	 if (mur_x!="fin") {
+	 if (!mur_x.equals("fin")) {
 		 try {abs=Integer.parseInt(mur_x);
 		 System.out.println("ordonnée du mur ? ");
 		 mur_y = myObj1.nextLine();
@@ -71,7 +71,7 @@ while(fin.equals(mur_x)!=true){
 		 catch(Exception e) {System.out.println("paramètre non valide");}
 		lab[abs][ord]=new Mur();
 		 }
-		 catch(Exception e) {System.out.println("paramètre non valide");}
+		 catch(Exception e) {System.out.println("paramètre1 non valide");}
 	 }
 }
 laby=lab;}}
