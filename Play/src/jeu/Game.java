@@ -3,6 +3,7 @@ package jeu;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
@@ -30,7 +31,7 @@ public class Game {
 		this.populationMonstre = new ArrayList<Monstre>();
 	}
 
-	public Game() {
+	public Game() throws Exception {
 		boolean err=false;
 	
 		Labyrinthe labyrinthe = new Labyrinthe();
@@ -90,7 +91,10 @@ public class Game {
 		this.randomPopulationMonstre(nb_monstres);
 		place_dispo=place_dispo-nb_monstres;
 		this.affichage();}
-		catch(Exception e) {System.out.println("Le labyrinthe ne peut être créer");}
+		catch(Exception e) {
+			System.out.println("Le labyrinthe ne peut être créer");
+			throw e;
+		}
 		
 		err=false;
 		
@@ -375,21 +379,51 @@ this.affichage();
 			default:
 		}
 	}
-	public void peuplement(Monstre monstre) {
-		this.labyrinthe.laby[monstre.position_y][monstre.position_x].population.add(monstre);
-		this.populationMonstre.add(monstre);
+	public void peuplement(Monstre monstre) throws Exception {
+		int x = monstre.position_x;
+		int y = monstre.position_y;
+		if (y >= 0 && y < this.labyrinthe.largeur && x >= 0 && x < this.labyrinthe.longueur) {
+//			System.out.print(this.labyrinthe.laby[y][x].testPresence());
+//			System.out.print(this.labyrinthe.laby[y][x].visuel.equalsIgnoreCase("1"));
+			if (!(this.labyrinthe.laby[y][x].testPresence() || (this.labyrinthe.laby[y][x].visuel.equalsIgnoreCase("1")))) {
+				System.out.println("here");
+				this.labyrinthe.laby[monstre.position_y][monstre.position_x].population.add(monstre);
+				this.populationMonstre.add(monstre);
+			}
+			else
+				throw new Exception("Vous ne pouvez pas placer un monstre sur un mur ou un autre personnage");
+		}
+			else
+				throw new Exception("Coordonnées du monstre à placer invalides");
 	}
-	public void randomPopulationMonstre(int nbMonstre) {
+	public void randomPopulationMonstre(int nbMonstre) throws Exception {
 		this.populationMonstre = new ArrayList<Monstre>();
-		while (nbMonstre >0) {
-			int positionX = (int)(Math.random() * (this.labyrinthe.longueur-2)) + 1;
-			int positionY = (int)(Math.random() * (this.labyrinthe.largeur-2)) + 1;
-			Monstre monstre = new Monstre(1, positionX,positionY);
-			if (!(this.labyrinthe.laby[positionY][positionX].testPresence())) {
-				this.peuplement(monstre);
-				nbMonstre = nbMonstre - 1;
+		ArrayList<int[]> caseDisponible = new ArrayList<int[]>();
+		Random random = new Random();
+		for (int i = 0; i < labyrinthe.laby.length; i++) {
+			for (int j = 0; j < labyrinthe.laby[i].length; j++) {
+				if (!(this.labyrinthe.laby[i][j].testPresence() || (this.labyrinthe.laby[i][j].visuel.equalsIgnoreCase("1")))) {
+					int[] position = new int[2];
+					position[0] = j;
+					position[1] = i;
+					caseDisponible.add(position);
+				}
 			}
 		}
+		int[] position = new int[2];
+		if (caseDisponible.size() > nbMonstre) {
+			for (int i = 0; i < nbMonstre; i++) {
+				int j = random.nextInt(caseDisponible.size());
+				position = caseDisponible.get(j);
+				caseDisponible.remove(j);
+				System.out.print(position[0]);
+				System.out.println(position[1]);
+				Monstre monstre = new Monstre(1, position[0],position[1]);
+				this.peuplement(monstre);
+			}
+		}
+		else
+			throw new Exception("Pas assez de place disponible pour placer les monstres.");
 	}
 	public void affichage() {
 		for (int i=0;i<this.labyrinthe.laby.length;i++) {
