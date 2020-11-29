@@ -37,28 +37,28 @@ Labyrinthe(){
 	boolean err= false;
 	Scanner myObj = new Scanner(System.in);  
 	Scanner myObj1 = new Scanner(System.in);
-    System.out.println("Longueur du labyrinthe ? ");
+
     
-    String longue = myObj.nextLine();  
-    try {
-    longueur=Integer.parseInt(longue);}
-    catch(Exception e) {
-    	System.out.println("paramètre invalide");
-    	err=true;}
-   
-    
-   System.out.println("Largeur du labyrinthe ? ");
-  
-    
-    
-    String larg = myObj.nextLine(); 
-    try {
-    largeur=Integer.parseInt(larg);}
-   catch(Exception e1) {
-   	System.out.println("paramètre invalide");
-    	err=true;
+    while (!err) {
+    	try {
+    	    System.out.println("Longueur du labyrinthe ? ");
+    	    String longue = myObj.nextLine();
+    	    System.out.println("Largeur du labyrinthe ? ");
+    	    String larg = myObj.nextLine(); 
+    	    longueur=Integer.parseInt(longue);
+    	    largeur=Integer.parseInt(larg);
+    	    if (longueur < 0 || largeur < 0) {
+    	    	throw new Exception();
+    	    }
+    	    else
+    	    	err = true;
+    	}
+    	    catch(Exception e) {
+    	    	System.out.println("paramètre invalide");
+
+    	}
     }
-   if(err==false) {
+
 	Parcelle[][] lab=new Parcelle[largeur][longueur];
 	for (int i=0;i<lab.length;i++) {
 		for (int j=0;j<lab[i].length;j++)
@@ -71,7 +71,8 @@ String mur_y="a";
 String fin="fin";
 int abs=0;
 int ord=0;
-while(fin.equals(mur_x)!=true){
+int placeDisponible = ((largeur - 2) * (longueur - 2)) - 3;
+while((fin.equals(mur_x)!=true) && (placeDisponible > 0)){
 	 System.out.println("abscisse du mur ? (tapez fin si vous avez placé tous vos murs) ");
 	 mur_x = myObj.nextLine();
 	 if (!mur_x.equals("fin")) {
@@ -81,11 +82,12 @@ while(fin.equals(mur_x)!=true){
 		 try {ord=Integer.parseInt(mur_y);}
 		 catch(Exception e) {System.out.println("paramètre non valide");}
 		lab[ord][abs]=new Mur();
+		placeDisponible--;
 		 }
 		 catch(Exception e) {System.out.println("paramètre1 non valide");}
 	 }
 }
-laby=lab;}}
+laby=lab;}
 
 	Labyrinthe(Scanner scan){
 		boolean err= false;

@@ -39,10 +39,15 @@ public class Game {
 		int compteur=0;
 		
 		for (int i=0;i<labyrinthe.laby.length;i++) {
-			for (int j=0;j<labyrinthe.laby[i].length;j++)
-			{if (labyrinthe.laby[i][j].visuel.equals("1")) {compteur=compteur+1;}}}
+			for (int j=0;j<labyrinthe.laby[i].length;j++) {
+				if (labyrinthe.laby[i][j].visuel.equals("1")) {
+					compteur=compteur+1;
+					}
+				}
+			}
 		int place_dispo=labyrinthe.longueur*labyrinthe.largeur-compteur;
-		if (place_dispo==0) {System.out.println("pas de places dans le labyrinthe");}
+		if (place_dispo==0) {
+			System.out.println("pas de places dans le labyrinthe");}
 		else {
 			Scanner myObj = new Scanner(System.in); 
 			
