@@ -8,5 +8,6 @@ public class Mur extends Parcelle{
 		this.visible = true;
 		this.visuel = "1";
 		this.population = new ArrayList<Personnage>();
+		this.image = "mur";
 	}
 }

@@ -32,7 +32,6 @@ public class Labyrinthe {int longueur; int largeur; Parcelle[][] laby;
 
 
 
-
 Labyrinthe(){
 	boolean err= false;
 	Scanner myObj = new Scanner(System.in);  

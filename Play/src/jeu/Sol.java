@@ -8,5 +8,6 @@ public class Sol extends Parcelle{
 		this.visible = true;
 		this.visuel = "-";
 		this.population = new ArrayList<Personnage>();
+		this.image = "sol";
 	}
 }

@@ -8,9 +8,14 @@ public class Tresor extends Parcelle{
 		this.visible = visible;
 		this.visuel = "T";
 		this.population = new ArrayList<Personnage>();
+		if (visible)
+			this.image = "tresor";
+		else
+			this.image = "sol";
 	}
 	public void reveler() {
 		this.visible = true;
+		this.image = "tresor";
 	}
 	public String declenchement() {
 		if (this.visible) 

@@ -5,6 +5,7 @@ public abstract class Personnage {
 	public int position_x;
 	public int position_y;
 	public String visuel;
+	public String image;
 	
 	public boolean test_deplacement(Labyrinthe L, int x, int y) {
 		if (((Math.abs(x-position_x)!=1) && (Math.abs(y-position_y)!=0)) || 
@@ -25,6 +26,6 @@ public abstract class Personnage {
 		return this.point_de_vie > 0;
 	}
 	public void subirDegat() {
-			this.point_de_vie = 0;
+			this.point_de_vie = Math.max(0, this.point_de_vie - 1);
 	}
 }

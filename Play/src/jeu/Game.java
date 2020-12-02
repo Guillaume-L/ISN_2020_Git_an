@@ -1,15 +1,29 @@
 package jeu;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 public class Game {
 	Labyrinthe labyrinthe;
 	Heros hero;
 	ArrayList<Monstre> populationMonstre;
+	Moniteur moniteur;
+	String status;
 
 	public Game(Labyrinthe labyrinthe, Heros hero, ArrayList<Monstre> populationMonstre) {
 		this.labyrinthe = labyrinthe;
@@ -21,6 +35,15 @@ public class Game {
 			this.populationMonstre.add(monstre);
 		}
 		this.populationMonstre = populationMonstre;
+		this.moniteur = new Moniteur(labyrinthe);
+		this.moniteur.addKeyListener( new KeyAdapter() {
+			
+			public void keyTyped( KeyEvent e) {
+				Game.this.deplacementHero(String.valueOf(e.getKeyChar()).toLowerCase());
+				Game.this.affichage();
+			}
+		});
+		this.status = "";
 	}
 	
 	public Game(Labyrinthe labyrinthe, Heros hero) {
@@ -29,11 +52,20 @@ public class Game {
 		this.labyrinthe.laby[hero.position_y][hero.position_x].population.add(hero) ;
 		this.hero = hero;
 		this.populationMonstre = new ArrayList<Monstre>();
+		this.status = "";
+		this.moniteur = new Moniteur(labyrinthe);
+		this.moniteur.addKeyListener( new KeyAdapter() {
+			
+			public void keyTyped( KeyEvent e) {
+				Game.this.deplacementHero(String.valueOf(e.getKeyChar()));
+				Game.this.affichage();
+			}
+		});
 	}
 
 	public Game() throws Exception {
 		boolean err=false;
-	
+		this.status = "";
 		Labyrinthe labyrinthe = new Labyrinthe();
 		this.labyrinthe = labyrinthe;
 		int compteur=0;
@@ -333,7 +365,14 @@ this.affichage();
 			System.out.println("Erreur lors de la lecture du fichier");
 			throw e;
 		}
-		
+		this.moniteur = new Moniteur(labyrinthe);
+		this.moniteur.addKeyListener( new KeyAdapter() {
+			
+			public void keyTyped( KeyEvent e) {
+				Game.this.deplacementHero(String.valueOf(e.getKeyChar()));
+				Game.this.affichage();
+			}
+		});
 	}
 	public void deplacementHero(String mouvement) {
 		switch (mouvement) {
@@ -431,31 +470,17 @@ this.affichage();
 			throw new Exception("Pas assez de place disponible pour placer les monstres.");
 	}
 	public void affichage() {
-		for (int i=0;i<this.labyrinthe.laby.length;i++) {
-			System.out.println(" ");
-			for (int j=0;j<this.labyrinthe.laby[i].length;j++) {
-				if (this.labyrinthe.laby[i][j].testPresence()) {
-					for (Personnage personnage : this.labyrinthe.laby[i][j].population) {
-						if (personnage.testVivant())
-							System.out.print(personnage.visuel);
-					}
-				}
-				else if (this.labyrinthe.laby[i][j].visible) {
-					System.out.print(this.labyrinthe.laby[i][j].visuel);
-				}
-				else {
-					Sol sol = new Sol();
-					System.out.print(sol.visuel);
-				}
-			}
-		}
-		System.out.println(" ");
-		System.out.println("Le héro a "+ this.hero.point_de_vie + " point(s) de vie");
+		this.moniteur.affichage(this.labyrinthe, this.hero, this.status);
 	}
 	public void resoudreCombat(int positionX, int positionY) {
 		if (this.labyrinthe.laby[positionY][positionX].population.size() > 0 ) {
 			this.hero.subirDegat();
-			System.out.print("Monstre tué, mais le héro a perdu des points de vie lors du combat");
+			if (!this.hero.testVivant()) {
+				this.labyrinthe.laby[positionY][positionX].image = "killByMonster";
+				status = "Défaite, le héro a été tué par un monstre";
+			}
+			else
+				this.status = "Monstre tué, mais le héro a perdu 1 point de vie lors du combat";
 			for (int i = 0; i < this.populationMonstre.size(); i++) {
 				if ((this.populationMonstre.get(i).position_x == positionX) && (this.populationMonstre.get(i).position_y == positionY)) {
 					this.populationMonstre.get(i).subirDegat();
@@ -472,16 +497,21 @@ this.affichage();
 			switch (decoupeEffetCase[0]) {
 				case "piege":
 					this.hero.subirDegat();
+					if (!this.hero.testVivant()) {
+						this.labyrinthe.laby[positionY][positionX].image = "killByPiege";
+						this.status = "Défaite, le héro a été tué par un piège";
+					}
 				break;
 				case "magique":
 					this.labyrinthe.revelerTresor();
+					this.status = "La trésor est désormais visible";
 				break;
 				case "passage":
 					this.labyrinthe.laby[positionY][positionX].population.add(this.hero);
-					long pauseAvantTeleportation = 500; // exprimer en milliseconde
+					long pauseAvantTeleportation = 1000; // exprimer en milliseconde
 					this.affichage();
 					try {
-						Thread.sleep(pauseAvantTeleportation);// donc une pause de 0,2 sec.
+						Thread.sleep(pauseAvantTeleportation);// donc une pause de 2 sec.
 					}
 					catch (InterruptedException e) {
 						e.printStackTrace();
@@ -495,7 +525,7 @@ this.affichage();
 					this.labyrinthe.laby[this.hero.position_y][this.hero.position_x].declenchement();
 				break;
 				case "victoire":
-					System.out.println("Victoire : le héro a récupéré le trésor");
+					this.status = "Victoire : le héro a récupéré le trésor";
 				break;
 				default:
 		}

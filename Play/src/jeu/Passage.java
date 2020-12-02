@@ -13,6 +13,7 @@ public class Passage extends Parcelle{
 		this.positionArriveeX = positionArriveeX;
 		this.positionArriveeY = positionArriveeY;
 		this.population = new ArrayList<Personnage>();
+		this.image ="passage";
 	}
 	public String declenchement() {
 		return new String("passage " + positionArriveeX + " " + positionArriveeY);

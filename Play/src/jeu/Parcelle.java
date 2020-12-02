@@ -6,6 +6,7 @@ public abstract class Parcelle {
 	boolean visible;
 	String visuel;
 	ArrayList<Personnage> population;
+	String image;
 	
 	public boolean testPresence() {
 		for (Personnage personnage : this.population) {

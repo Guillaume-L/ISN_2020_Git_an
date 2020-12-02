@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 
 
+
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -42,19 +44,21 @@ public class Main {
 						System.out.println("Instruction non-comprise. Veuillez resaisir votre choix.");
 				}
 			}
-			while (jeu.hero.testVivant() && continuer) {
-				jeu.affichage();
-				System.out.println("Deplacement z/q/s/d, tapez 'quitter' pour arrêter le jeu");
-				String commande = scan.nextLine().toLowerCase(); // Lire la saisie de l'utilisateur
-				if (commande.equalsIgnoreCase("quitter")) {
-					continuer = false;
-					System.out.println("Vous venez de quitter le jeu");
-				}
-				jeu.deplacementHero(commande);
+			jeu.affichage();
+//			Scanner scan = new Scanner(System.in);
+//			while (jeu.hero.testVivant() && continuer) {
 
-			}
-			if (continuer)
-				System.out.println("Défaite : Le héro a perdu tous ses points de vie");
+//				System.out.println("Deplacement z/q/s/d, tapez 'quitter' pour arrêter le jeu");
+//				String commande = scan.nextLine().toLowerCase(); // Lire la saisie de l'utilisateur
+//				if (commande.equalsIgnoreCase("quitter")) {
+//					continuer = false;
+//					System.out.println("Vous venez de quitter le jeu");
+//				}
+//				jeu.deplacementHero(commande);
+
+//			}
+//			if (continuer)
+//				System.out.println("Défaite : Le héro a perdu tous ses points de vie");
 		} catch (Exception e1) {
 			e1.printStackTrace();
 	
