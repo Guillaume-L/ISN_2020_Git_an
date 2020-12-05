@@ -69,7 +69,14 @@ public class Game {
 		Labyrinthe labyrinthe = new Labyrinthe();
 		this.labyrinthe = labyrinthe;
 		int compteur=0;
-		
+		this.moniteur = new Moniteur(labyrinthe);
+		this.moniteur.addKeyListener( new KeyAdapter() {
+			
+			public void keyTyped( KeyEvent e) {
+				Game.this.deplacementHero(String.valueOf(e.getKeyChar()));
+				Game.this.affichage();
+			}
+		});
 		for (int i=0;i<labyrinthe.laby.length;i++) {
 			for (int j=0;j<labyrinthe.laby[i].length;j++) {
 				if (labyrinthe.laby[i][j].visuel.equals("1")) {
@@ -427,10 +434,7 @@ this.affichage();
 		int x = monstre.position_x;
 		int y = monstre.position_y;
 		if (y >= 0 && y < this.labyrinthe.largeur && x >= 0 && x < this.labyrinthe.longueur) {
-//			System.out.print(this.labyrinthe.laby[y][x].testPresence());
-//			System.out.print(this.labyrinthe.laby[y][x].visuel.equalsIgnoreCase("1"));
 			if (!(this.labyrinthe.laby[y][x].testPresence() || (this.labyrinthe.laby[y][x].visuel.equalsIgnoreCase("1")))) {
-				System.out.println("here");
 				this.labyrinthe.laby[monstre.position_y][monstre.position_x].population.add(monstre);
 				this.populationMonstre.add(monstre);
 			}
@@ -460,8 +464,6 @@ this.affichage();
 				int j = random.nextInt(caseDisponible.size());
 				position = caseDisponible.get(j);
 				caseDisponible.remove(j);
-				System.out.print(position[0]);
-				System.out.println(position[1]);
 				Monstre monstre = new Monstre(1, position[0],position[1]);
 				this.peuplement(monstre);
 			}
