@@ -49,12 +49,13 @@ Sprint 2 :
 Sprint 3 :
 -création interface graphique 
 -Monstres se déplacent aléatoirement
--fantômes sont des monstres passant à travers les murs 
+-Le héros peut attaquer les monstres quand ils sont sur la même case
+
 
 
 Sprint 4:
 -Amélioration interface graphique
--Le héros peut attaquer les monstres quand ils sont sur la même cas
+-fantômes sont des monstres passant à travers les murs 
 -Le héros peut attaquer les monstres adjacents
 
 
