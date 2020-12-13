@@ -3,8 +3,8 @@ package jeu;
 import java.util.ArrayList;
 
 public class Passage extends Parcelle{
-	int positionArriveeY;
-	int positionArriveeX;
+	public int positionArriveeY;
+	public int positionArriveeX;
 	
 
 	public Passage(int positionArriveeX, int positionArriveeY) {
