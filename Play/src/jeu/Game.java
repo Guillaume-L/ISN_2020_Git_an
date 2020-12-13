@@ -334,6 +334,12 @@ this.affichage();
 						positionArriveeY = Integer.parseInt(decoupe[4]);
 						labyrinthe.laby[positionY][positionX] = new Passage(positionArriveeX, positionArriveeY);
 					break;
+					case "fantome":
+						pointDeVie = Integer.parseInt(decoupe[1]);
+						positionX = Integer.parseInt(decoupe[2]);
+						positionY = Integer.parseInt(decoupe[3]);
+						populationMonstre.add(new Fantome(pointDeVie, positionX, positionY));
+					break;
 					default :
 				}
 			}
@@ -349,8 +355,14 @@ this.affichage();
 						throw new Exception("Erreur : hero est dans un mur");
 					this.populationMonstre = new ArrayList<Monstre>();
 					for (Monstre monstre : populationMonstre) {
-						if (this.labyrinthe.laby[monstre.position_y][monstre.position_x] instanceof Mur)
-							throw new Exception("Erreur : 1 personnage est dans un mur");
+						if (this.labyrinthe.laby[monstre.position_y][monstre.position_x] instanceof Mur) {
+							if (monstre.image.equalsIgnoreCase("ghost")) {
+								this.labyrinthe.laby[monstre.position_y][monstre.position_x].population.add(monstre);
+								this.populationMonstre.add(monstre);
+							}
+							else
+								throw new Exception("Erreur : 1 personnage non fantôme est dans un mur");
+							}
 						else  if (this.labyrinthe.laby[monstre.position_y][monstre.position_x].testPresence())
 							throw new Exception("Erreur : 2 personnages sont initialement placés sur la même case.");
 						else {
@@ -377,6 +389,7 @@ this.affichage();
 			
 			public void keyTyped( KeyEvent e) {
 				Game.this.deplacementHero(String.valueOf(e.getKeyChar()));
+				Game.this.deplacementMonstre();
 				Game.this.affichage();
 			}
 		});
@@ -385,7 +398,7 @@ this.affichage();
 		switch (mouvement) {
 			case "z":
 				if (this.labyrinthe.laby[this.hero.position_y - 1][this.hero.position_x] instanceof Mur)
-					System.out.println("Le héro bloque contre un mur");
+					this.status = "Le héro bloque contre un mur";
 				else {
 					this.labyrinthe.laby[this.hero.position_y][this.hero.position_x].population.clear();
 					this.hero.position_y -= 1;
@@ -428,6 +441,18 @@ this.affichage();
 				}
 			break;
 			default:
+		}
+	}
+	public void deplacementMonstre() {
+		for (int i = 0; i < this.populationMonstre.size(); i++) {
+			if (this.populationMonstre.get(i).testVivant()){
+				int[] nouvellePosition = this.populationMonstre.get(i).deplacement(this.labyrinthe);
+				this.labyrinthe.laby[this.populationMonstre.get(i).position_y][this.populationMonstre.get(i).position_x].population.clear();
+				this.populationMonstre.get(i).position_x = nouvellePosition[0];
+				this.populationMonstre.get(i).position_y = nouvellePosition[1];
+				this.resoudreCombat(this.populationMonstre.get(i).position_x, this.populationMonstre.get(i).position_y);
+				this.labyrinthe.laby[this.populationMonstre.get(i).position_y][this.populationMonstre.get(i).position_x].population.add(this.populationMonstre.get(i));
+			}
 		}
 	}
 	public void peuplement(Monstre monstre) throws Exception {
@@ -502,6 +527,9 @@ this.affichage();
 					if (!this.hero.testVivant()) {
 						this.labyrinthe.laby[positionY][positionX].image = "killByPiege";
 						this.status = "Défaite, le héro a été tué par un piège";
+					}
+					else {
+						this.status = "Le Hero vient de marcher sur un piège. Il perd 1 point de vie";
 					}
 				break;
 				case "magique":

@@ -14,7 +14,6 @@ public class Piege extends Parcelle{
 		this.visible = true;
 		this.visuel = "X";
 		this.image = "piege";
-		System.out.println("Le Hero vient de marcher sur un piège. Il perd 1 point de vie");
 		return new String("piege");
 		}
 

@@ -14,7 +14,6 @@ public abstract class Parcelle {
 				return true;
 		}
 		return false;
-
 	}
 	public String declenchement() {
 		return new String("rien");
