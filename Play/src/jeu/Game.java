@@ -112,7 +112,7 @@ public class Game {
 		err=false;
 		place_dispo=place_dispo-1;
 		
-		Heros hero=new Heros(2,abs,ord);
+		Heros hero=new Heros(1,abs,ord);
 		String nbi;
 		int nb_monstres=0;
 		while(!err) {
