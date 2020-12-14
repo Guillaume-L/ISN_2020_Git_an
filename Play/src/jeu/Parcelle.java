@@ -15,6 +15,13 @@ public abstract class Parcelle {
 		}
 		return false;
 	}
+	public boolean testPresenceHero() {
+		for (Personnage personnage : this.population) {
+			if (personnage.image.equalsIgnoreCase("hero"))
+				return true;
+		}
+		return false;
+	}
 	public String declenchement() {
 		return new String("rien");
 	}

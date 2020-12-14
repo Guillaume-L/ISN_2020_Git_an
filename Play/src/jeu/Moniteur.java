@@ -22,7 +22,7 @@ public class Moniteur extends JFrame {
 	private static final long serialVersionUID = -1710290985225719229L;
 	JButton buttonClickMe = new JButton("Click me !");
 	JButton buttonPushMe = new JButton("Push Me !");
-	public Game jeu;
+
 
 	public Moniteur(Labyrinthe labyrinthe) {
 		super("écran de jeu");

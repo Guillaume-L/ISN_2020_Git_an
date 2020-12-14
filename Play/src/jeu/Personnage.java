@@ -7,30 +7,10 @@ public abstract class Personnage {
 	public String visuel;
 	public String image;
 	
-	public boolean test_deplacement(Labyrinthe L, int x, int y) {
-		if (!(((Math.abs(x-position_x)==1) && (Math.abs(y-position_y)==0)) || 
-				((Math.abs(x-position_x)==0) && (Math.abs(y-position_y)==1)))) {
-			return false;	
-		}
-		else if (x>=L.longueur || y>=L.largeur || x < 0 || y < 0) {
-			return false;
-		} 
-		else if (!(this.image.equalsIgnoreCase("ghost"))) {
-			if (L.laby[y][x].visuel == "1"){
-				return false;
-			}
-			else {
-				return !(L.laby[y][x].testPresence());
-			}
-		}
-		else {
-			return !(L.laby[y][x].testPresence());
-		}
-	}
 	public boolean testVivant() {
-		return this.point_de_vie > 0;
+		return (point_de_vie > 0);
 	}
 	public void subirDegat() {
-			this.point_de_vie = Math.max(0, this.point_de_vie - 1);
+		this.point_de_vie = Math.max(this.point_de_vie - 1, 0);
 	}
 }

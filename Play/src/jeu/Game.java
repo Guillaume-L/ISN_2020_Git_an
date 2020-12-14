@@ -40,6 +40,7 @@ public class Game {
 			
 			public void keyTyped( KeyEvent e) {
 				Game.this.deplacementHero(String.valueOf(e.getKeyChar()).toLowerCase());
+				Game.this.deplacementMonstre();
 				Game.this.affichage();
 			}
 		});
@@ -58,6 +59,7 @@ public class Game {
 			
 			public void keyTyped( KeyEvent e) {
 				Game.this.deplacementHero(String.valueOf(e.getKeyChar()));
+				Game.this.deplacementMonstre();
 				Game.this.affichage();
 			}
 		});
@@ -70,13 +72,6 @@ public class Game {
 		this.labyrinthe = labyrinthe;
 		int compteur=0;
 		this.moniteur = new Moniteur(labyrinthe);
-		this.moniteur.addKeyListener( new KeyAdapter() {
-			
-			public void keyTyped( KeyEvent e) {
-				Game.this.deplacementHero(String.valueOf(e.getKeyChar()));
-				Game.this.affichage();
-			}
-		});
 		for (int i=0;i<labyrinthe.laby.length;i++) {
 			for (int j=0;j<labyrinthe.laby[i].length;j++) {
 				if (labyrinthe.laby[i][j].visuel.equals("1")) {
@@ -245,7 +240,17 @@ this.affichage();
 	}
 	}
 	}
-	System.out.println("le jeu commence");}
+		this.moniteur.addKeyListener( new KeyAdapter() {
+			
+			public void keyTyped( KeyEvent e) {
+				Game.this.deplacementHero(String.valueOf(e.getKeyChar()));
+				Game.this.deplacementMonstre();
+				Game.this.affichage();
+			}
+		});
+	System.out.println("le jeu commence");
+	
+	}
 	
 	public Game(Heros hero, Scanner scan) {
 		Labyrinthe labyrinthe = new Labyrinthe(scan);
