@@ -9,7 +9,7 @@ import jeu.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import jeu.*;
+
 
 public class JeuEntierTest {
 	public Heros perso1; 
@@ -320,9 +320,9 @@ public class JeuEntierTest {
 	
 		//Creaton Labyrinthe
 	
-	@Test 
-	public void testCreationLabyrinthe() {
-		//laby1.Labyrinthe(); 
+	@Test (expected=Erreurjeu.class)
+	public void testCreationLabyrinthe()throws Exception {
+		Labyrinthe laby4=new Labyrinthe();
 	}
 	
 	//Game
