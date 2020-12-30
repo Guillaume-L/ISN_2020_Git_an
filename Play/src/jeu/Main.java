@@ -16,6 +16,7 @@ public class Main {
 		String nomFichier = new String();
 		boolean continuer = true;
 		Game jeu;
+		
 		try {
 			jeu = new Game("niveau1");
 			while (!(choix.equalsIgnoreCase("oui") || choix.equalsIgnoreCase("non"))) {
