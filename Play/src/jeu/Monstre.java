@@ -61,17 +61,17 @@ public class Monstre extends Personnage{
 		else if (x>=L.longueur || y>=L.largeur || x < 0 || y < 0) {
 			return false;
 		} 
-		else if (!(this.image.equalsIgnoreCase("ghost"))) {
-			if (L.laby[y][x].visuel == "1"){
-				return false;
-			}
-			else {
+		else if (this.image.equalsIgnoreCase("ghost")) {
+			if (L.laby[y][x].testPresenceHero())
+				return true;
+			else
 				return !(L.laby[y][x].testPresence());
-			}
 		}
 		else {
 			if (L.laby[y][x].testPresenceHero())
 				return true;
+			else if (L.laby[y][x].image.equalsIgnoreCase("mur"))
+				return false;
 			else
 				return !(L.laby[y][x].testPresence());
 		}
