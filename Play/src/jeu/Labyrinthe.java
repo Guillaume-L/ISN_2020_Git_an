@@ -32,14 +32,15 @@ public class Labyrinthe {int longueur; int largeur; Parcelle[][] laby;
 
 
 
-Labyrinthe(){
+public Labyrinthe ()throws Erreurjeu {
+	
 	boolean err= false;
 	Scanner myObj = new Scanner(System.in);  
 	Scanner myObj1 = new Scanner(System.in);
 
-    
+    boolean a=true;
     while (!err) {
-    	try {
+    	
     	    System.out.println("Longueur du labyrinthe ? ");
     	    String longue = myObj.nextLine();
     	    System.out.println("Largeur du labyrinthe ? ");
@@ -47,16 +48,19 @@ Labyrinthe(){
     	    longueur=Integer.parseInt(longue);
     	    largeur=Integer.parseInt(larg);
     	    if (longueur < 0 || largeur < 0) {
-    	    	throw new Exception();
+    	    	
+    	    	throw new Erreurjeu(" indice invalide");
+    	    	
+    	    	
+    	    	
     	    }
     	    else
     	    	err = true;
     	}
-    	    catch(Exception e) {
-    	    	System.out.println("paramètre invalide");
+    	    
 
-    	}
-    }
+    	
+    
 
 	Parcelle[][] lab=new Parcelle[largeur][longueur];
 	for (int i=0;i<lab.length;i++) {
@@ -87,6 +91,7 @@ while((fin.equals(mur_x)!=true) && (placeDisponible > 0)){
 	 }
 }
 laby=lab;}
+
 
 	Labyrinthe(Scanner scan){
 		boolean err= false;
