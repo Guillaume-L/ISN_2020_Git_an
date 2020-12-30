@@ -14,10 +14,12 @@ import org.junit.Test;
 public class JeuEntierTest {
 	public Heros perso1; 
 	public Heros perso2; 
+	public Heros perso4;	
 	public Personnage perso3;
 	public Labyrinthe laby1; 
 	public Parcelle parcelle1;
 	public Game game1;
+	public Game game2;
 	public Monstre monstre1;
 	public Monstre monstre2; 
 	public Monstre monstre3;
@@ -40,7 +42,8 @@ public class JeuEntierTest {
 		
 		perso1 = new Heros();
 		perso2 = new Heros(1,2,2);
-		
+		perso4=new Heros(1,8,8);
+		game2=new Game(laby1,perso4,popMonstre1);
 		game1 = new Game(laby1,perso1,popMonstre1);
 	
     } 
@@ -139,6 +142,34 @@ public class JeuEntierTest {
 	}
 	
 		//testVivant() de Personnage
+	@Test 
+	public void testdeplacementmurhaut() {
+		game1.deplacementHero("z");
+		String a=game1.status;
+		assertTrue(a.equalsIgnoreCase("Le héro bloque contre un mur"));
+		
+	}
+	@Test 
+	public void testdeplacementmurgauche() {
+		game1.deplacementHero("q");
+		String b=game1.status;
+		assertTrue(b.equalsIgnoreCase("Le héro bloque contre un mur"));
+	}
+	@Test 
+	public void testdeplacementmurbas() {
+		game2.deplacementHero("s");
+		String c=game2.status;
+		
+		String dh="Le héro bloque contre un mur";
+		assertTrue(c.equalsIgnoreCase(dh));
+	}
+		@Test 
+		public void testdeplacementmurdroite() {
+		
+			game2.deplacementHero("d");
+			String c=game2.status;
+			assertTrue(c.equalsIgnoreCase("Le héro bloque contre un mur"));
+		}	
 	
 	@Test
 	public void testTestVivant() {
