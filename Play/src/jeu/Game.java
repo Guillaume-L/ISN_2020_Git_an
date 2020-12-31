@@ -20,10 +20,10 @@ import javax.swing.JPanel;
 
 public class Game {
 	Labyrinthe labyrinthe;
-	Heros hero;
+	public Heros hero;
 	ArrayList<Monstre> populationMonstre;
 	Moniteur moniteur;
-	String status;
+	public String status;
 
 	public Game(Labyrinthe labyrinthe, Heros hero, ArrayList<Monstre> populationMonstre) {
 		this.labyrinthe = labyrinthe;
@@ -416,7 +416,7 @@ this.affichage();
 			break;
 			case "s":
 				if (this.labyrinthe.laby[this.hero.position_y + 1][this.hero.position_x] instanceof Mur)
-					System.out.println("Le héro bloque contre un mur");
+					this.status = "Le héro bloque contre un mur";
 				else {
 					this.labyrinthe.laby[this.hero.position_y][this.hero.position_x].population.clear();
 					this.hero.position_y += 1;
@@ -429,7 +429,7 @@ this.affichage();
 			break;
 			case "q":
 				if (this.labyrinthe.laby[this.hero.position_y][this.hero.position_x - 1] instanceof Mur)
-					System.out.println("Le héro bloque contre un mur");
+					this.status = "Le héro bloque contre un mur";
 				else {
 					this.labyrinthe.laby[this.hero.position_y][this.hero.position_x].population.clear();
 					this.hero.position_x -= 1;
@@ -442,7 +442,7 @@ this.affichage();
 			break;
 			case "d":
 				if (this.labyrinthe.laby[this.hero.position_y][this.hero.position_x + 1] instanceof Mur)
-					System.out.println("Le héro bloque contre un mur");
+					this.status = "Le héro bloque contre un mur";
 				else {
 					this.labyrinthe.laby[this.hero.position_y][this.hero.position_x].population.clear();
 					this.hero.position_x += 1;
