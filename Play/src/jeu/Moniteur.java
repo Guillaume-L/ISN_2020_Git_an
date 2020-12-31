@@ -1,14 +1,20 @@
 package jeu;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -20,8 +26,6 @@ public class Moniteur extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = -1710290985225719229L;
-	JButton buttonClickMe = new JButton("Click me !");
-	JButton buttonPushMe = new JButton("Push Me !");
 
 
 	public Moniteur(Labyrinthe labyrinthe) {
@@ -39,6 +43,11 @@ public class Moniteur extends JFrame {
 				}
 			}
 		});
+		JPanel contentPane = (JPanel) this.getContentPane();
+		contentPane.removeAll();
+		contentPane.setLayout( new BorderLayout());
+		this.pack();
+//		this.setVisible(true); // semble mieux marcher si à la fins
 	}
 	
 	private JPanel chargerNiveau(String nomFichier) {
@@ -71,6 +80,8 @@ public class Moniteur extends JFrame {
 		statusBar.add( labelStatusVie, BorderLayout.WEST );
 		JLabel labelStatus = new JLabel(status);
 		statusBar.add( labelStatus, BorderLayout.EAST);
+		JLabel commande = new JLabel("Déplacement: Z,Q,S,D attaque: ESPACE");
+		statusBar.add( commande, BorderLayout.SOUTH);
 		return statusBar;
 	}
 	public JPanel createVueLabyrinthe(Labyrinthe labyrinthe) {
@@ -81,13 +92,26 @@ public class Moniteur extends JFrame {
 		for (int i = labyrinthe.longueur -1; i >= 0 ; i--) {
 			for (int j = labyrinthe.largeur - 1; j >= 0; j--) {
 				String nomFichierImage = labyrinthe.laby[j][i].image;
-				if (labyrinthe.laby[j][i].testPresence()) {
+				if (labyrinthe.laby[j][i].testPresence() || labyrinthe.laby[j][i].testPresenceCombat()) {
 					boolean survivantIntrouvable = true;
 					int k = 0;
 					while (survivantIntrouvable) {
-						if (labyrinthe.laby[j][i].population.get(k).testVivant()) {
-							nomFichierImage = labyrinthe.laby[j][i].population.get(k).image + nomFichierImage;
-							survivantIntrouvable = false;
+						if (labyrinthe.laby[j][i].population.get(k).enCombat) {
+							if (labyrinthe.laby[j][i].population.get(k).image.equalsIgnoreCase("hero") && (!labyrinthe.laby[j][i].population.get(k).testVivant())) {
+								labyrinthe.laby[j][i].population.get(k).enCombat = false;
+								survivantIntrouvable = false;
+							}
+							else {
+								nomFichierImage = labyrinthe.laby[j][i].population.get(k).image + nomFichierImage + "blessure";
+								survivantIntrouvable = false;
+								labyrinthe.laby[j][i].population.get(k).enCombat = false;
+							}
+						}
+						else {
+							if (labyrinthe.laby[j][i].population.get(k).testVivant()) {
+								nomFichierImage = labyrinthe.laby[j][i].population.get(k).image + nomFichierImage;
+								survivantIntrouvable = false;
+							}
 						}
 						k++;
 					}
@@ -101,5 +125,63 @@ public class Moniteur extends JFrame {
 			}
 		}
 		return panneauLabyrinthe;
+	}
+	public JPanel createMenu() {
+		JPanel panneauMenu = new JPanel(new BorderLayout() );
+		JButton buttonCreation = new JButton("Créer un niveau");
+		buttonCreation.addMouseListener( new MouseAdapter() {
+			
+			public void mouseEntered(MouseEvent e) {
+				buttonCreation.setBackground( Color.BLACK );
+				buttonCreation.setForeground( Color.WHITE );
+			}
+			public void mouseExited(MouseEvent e) {
+				buttonCreation.setForeground( Color.BLACK );
+				buttonCreation.setBackground( Color.WHITE );
+			}
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Bouton création cliqué");
+			}
+		});
+		JButton buttonSelection = new JButton("Charger un niveau");
+		buttonSelection.addMouseListener( new MouseAdapter() {
+			
+			public void mouseEntered(MouseEvent e) {
+				buttonSelection.setBackground( Color.BLACK );
+				buttonSelection.setForeground( Color.WHITE );
+			}
+			public void mouseExited(MouseEvent e) {
+				buttonSelection.setForeground( Color.BLACK );
+				buttonSelection.setBackground( Color.WHITE );
+			}
+			public void mouseClicked(MouseEvent e) {
+				panneauMenu.add( createMenuSelection(), BorderLayout.SOUTH);
+				Moniteur.this.pack();
+			}
+		});
+		panneauMenu.add(buttonCreation, BorderLayout.WEST);
+		panneauMenu.add(buttonSelection, BorderLayout.EAST);
+		return panneauMenu;
+	}
+	public JPanel createMenuSelection() {
+		JPanel panneauMenuSelection = new JPanel(new BorderLayout());
+		JComboBox <String> menuDeroulant = new JComboBox<String>();
+		ArrayList<String> listeNomNiveau = new ArrayList<String>();
+		listeNomNiveau.add("niveau1");
+		listeNomNiveau.add("niveau2");
+		for (String nomNiveau : listeNomNiveau) {
+			menuDeroulant.addItem(nomNiveau);
+		}
+		menuDeroulant.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+			}
+			
+		});
+		panneauMenuSelection.add(menuDeroulant, BorderLayout.SOUTH);
+		JLabel consigne = new JLabel("Selectionner le niveau à charger :");
+		panneauMenuSelection.add(consigne, BorderLayout.NORTH);
+		return panneauMenuSelection;
 	}
 }

@@ -27,4 +27,18 @@ public abstract class Parcelle {
 	}
 	public void reveler() {
 	}
+	public boolean testPresenceEnnemi() {
+		for (Personnage personnage : this.population) {
+			if ((!personnage.image.equalsIgnoreCase("hero")) && personnage.testVivant())
+				return true;
+		}
+		return false;
+	}
+	public boolean testPresenceCombat() {
+		for (Personnage personnage : this.population) {
+			if (personnage.enCombat)
+				return true;
+		}
+		return false;
+	}
 }

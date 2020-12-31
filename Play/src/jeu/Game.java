@@ -411,6 +411,8 @@ this.affichage();
 					this.declencherEffetCase(this.hero.position_x, this.hero.position_y);
 					this.labyrinthe.laby[this.hero.position_y][this.hero.position_x].population.add(this.hero);
 				}
+				this.hero.dernierDeplacement = "haut";
+				this.hero.enCombat = false;
 			break;
 			case "s":
 				if (this.labyrinthe.laby[this.hero.position_y + 1][this.hero.position_x] instanceof Mur)
@@ -422,6 +424,8 @@ this.affichage();
 					this.declencherEffetCase(this.hero.position_x, this.hero.position_y);
 					this.labyrinthe.laby[this.hero.position_y][this.hero.position_x].population.add(this.hero);
 				}
+				this.hero.dernierDeplacement = "bas";
+				this.hero.enCombat = false;
 			break;
 			case "q":
 				if (this.labyrinthe.laby[this.hero.position_y][this.hero.position_x - 1] instanceof Mur)
@@ -433,6 +437,8 @@ this.affichage();
 					this.declencherEffetCase(this.hero.position_x, this.hero.position_y);
 					this.labyrinthe.laby[this.hero.position_y][this.hero.position_x].population.add(this.hero);
 				}
+				this.hero.dernierDeplacement = "gauche";
+				this.hero.enCombat = false;
 			break;
 			case "d":
 				if (this.labyrinthe.laby[this.hero.position_y][this.hero.position_x + 1] instanceof Mur)
@@ -444,19 +450,31 @@ this.affichage();
 					this.declencherEffetCase(this.hero.position_x, this.hero.position_y);
 					this.labyrinthe.laby[this.hero.position_y][this.hero.position_x].population.add(this.hero);
 				}
+				this.hero.dernierDeplacement = "droite";
+				this.hero.enCombat = false;
+			break;
+			case " ":
+				this.attaque();
+				this.hero.enCombat = true;
+				for (int i = 0; i < this.labyrinthe.laby[this.hero.position_y][this.hero.position_x].population.size(); i++) {
+					if (this.labyrinthe.laby[this.hero.position_y][this.hero.position_x].population.get(i).image.equalsIgnoreCase("hero"))
+						this.labyrinthe.laby[this.hero.position_y][this.hero.position_x].population.get(i).enCombat = true;
+				}
 			break;
 			default:
 		}
 	}
 	public void deplacementMonstre() {
-		for (int i = 0; i < this.populationMonstre.size(); i++) {
-			if (this.populationMonstre.get(i).testVivant()){
-				int[] nouvellePosition = this.populationMonstre.get(i).deplacement(this.labyrinthe);
-				this.labyrinthe.laby[this.populationMonstre.get(i).position_y][this.populationMonstre.get(i).position_x].population.clear();
-				this.populationMonstre.get(i).position_x = nouvellePosition[0];
-				this.populationMonstre.get(i).position_y = nouvellePosition[1];
-				this.resoudreCombat(this.populationMonstre.get(i).position_x, this.populationMonstre.get(i).position_y);
-				this.labyrinthe.laby[this.populationMonstre.get(i).position_y][this.populationMonstre.get(i).position_x].population.add(this.populationMonstre.get(i));
+		if (this.hero.testVivant()) {
+			for (int i = 0; i < this.populationMonstre.size(); i++) {
+				if (this.populationMonstre.get(i).testVivant()){
+					int[] nouvellePosition = this.populationMonstre.get(i).deplacement(this.labyrinthe);
+					this.labyrinthe.laby[this.populationMonstre.get(i).position_y][this.populationMonstre.get(i).position_x].population.clear();
+					this.populationMonstre.get(i).position_x = nouvellePosition[0];
+					this.populationMonstre.get(i).position_y = nouvellePosition[1];
+					this.resoudreCombat(this.populationMonstre.get(i).position_x, this.populationMonstre.get(i).position_y);
+					this.labyrinthe.laby[this.populationMonstre.get(i).position_y][this.populationMonstre.get(i).position_x].population.add(this.populationMonstre.get(i));
+				}
 			}
 		}
 	}
@@ -505,7 +523,7 @@ this.affichage();
 		this.moniteur.affichage(this.labyrinthe, this.hero, this.status);
 	}
 	public void resoudreCombat(int positionX, int positionY) {
-		if (this.labyrinthe.laby[positionY][positionX].population.size() > 0 ) {
+		if (this.labyrinthe.laby[positionY][positionX].testPresence()) {
 			this.hero.subirDegat();
 			if (!this.hero.testVivant()) {
 				this.labyrinthe.laby[positionY][positionX].image = "killByMonster";
@@ -519,7 +537,9 @@ this.affichage();
 				}
 			}
 			for (int i = 0; i < this.labyrinthe.laby[positionY][positionX].population.size(); i++) {
-				this.labyrinthe.laby[positionY][positionX].population.get(i).subirDegat();
+				if (!this.labyrinthe.laby[positionY][positionX].population.get(i).image.equalsIgnoreCase("hero")) {
+					this.labyrinthe.laby[positionY][positionX].population.get(i).subirDegat();
+				}
 			}
 		}
 	}
@@ -565,5 +585,197 @@ this.affichage();
 				default:
 		}
 	}
-
+	public void attaque() {
+		ArrayList<int[]> frappePossible = new ArrayList<int[]>();
+		ArrayList<int[]> zonesDeFrappe = new ArrayList<int[]>();
+		int[] gauche = new int[2];
+		gauche[0] = -1;
+		gauche[1] = 0;
+		int[] droite = new int[2];
+		droite[0] = 1;
+		droite[1] = 0;
+		int[] haut = new int[2];
+		haut[0] = 0;
+		haut[1] = -1;
+		int[] bas = new int[2];
+		bas[0] = 0;
+		bas[1] = 1;
+		zonesDeFrappe.add(gauche);
+		zonesDeFrappe.add(droite);
+		zonesDeFrappe.add(haut);
+		zonesDeFrappe.add(bas);
+		for (int[] frappe : zonesDeFrappe) {
+			int[] coordonnee = new int[2];
+			coordonnee[0] = this.hero.position_x + frappe[0];
+			coordonnee[1] = this.hero.position_y + frappe[1];
+			if (this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].testPresence() && (!this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].image.equalsIgnoreCase("mur"))) {
+				frappePossible.add(coordonnee);
+				}
+		}
+		switch (this.hero.dernierDeplacement) {
+			case "rien":
+				if (frappePossible.size()>0) {
+					Random rand= new Random();
+					int[] coordonnee = frappePossible.get(rand.nextInt(frappePossible.size()));
+					for (int i = 0; i < this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.size(); i++) {
+						this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.get(i).subirDegat();
+						this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.get(i).enCombat = true;
+					}
+					for (int i = 0; i < this.populationMonstre.size(); i++) {
+						if ((this.populationMonstre.get(i).position_x == coordonnee[0]) && (this.populationMonstre.get(i).position_y == coordonnee[1])) {
+							this.populationMonstre.get(i).subirDegat();
+							this.populationMonstre.get(i).enCombat = true;
+						}
+					}
+				}
+				else {
+					this.status = "Pas d'ennemi à porté";
+				}
+			break;
+			case "haut":
+				int[] coordonnee = new int[2];
+				coordonnee[0] = this.hero.position_x + 0;
+				coordonnee[1] = this.hero.position_y - 1;
+				if (this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].testPresence()) {
+					for (int i = 0; i < this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.size(); i++) {
+						this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.get(i).subirDegat();
+						this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.get(i).enCombat = true;
+					}
+					for (int i = 0; i < this.populationMonstre.size(); i++) {
+						if ((this.populationMonstre.get(i).position_x == coordonnee[0]) && (this.populationMonstre.get(i).position_y == coordonnee[1])) {
+							this.populationMonstre.get(i).subirDegat();
+							this.populationMonstre.get(i).enCombat = true;
+						}
+					}
+				}
+				else {
+					if (frappePossible.size()>0) {
+					Random rand= new Random();
+					coordonnee = frappePossible.get(rand.nextInt(frappePossible.size()));
+					for (int i = 0; i < this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.size(); i++) {
+						this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.get(i).subirDegat();
+						this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.get(i).enCombat = true;
+					}
+					for (int i = 0; i < this.populationMonstre.size(); i++) {
+						if ((this.populationMonstre.get(i).position_x == coordonnee[0]) && (this.populationMonstre.get(i).position_y == coordonnee[1])) {
+							this.populationMonstre.get(i).subirDegat();
+							this.populationMonstre.get(i).enCombat = true;
+						}
+					}
+				}
+					else {
+						this.status = "Pas d'ennemi à porté";
+					}
+				}
+			break;
+			case "bas":
+				coordonnee = new int[2];
+				coordonnee[0] = this.hero.position_x + 0;
+				coordonnee[1] = this.hero.position_y + 1;
+				if (this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].testPresence()) {
+					for (int i = 0; i < this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.size(); i++) {
+						this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.get(i).subirDegat();
+						this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.get(i).enCombat = true;
+					}
+					for (int i = 0; i < this.populationMonstre.size(); i++) {
+						if ((this.populationMonstre.get(i).position_x == coordonnee[0]) && (this.populationMonstre.get(i).position_y == coordonnee[1])) {
+							this.populationMonstre.get(i).subirDegat();
+							this.populationMonstre.get(i).enCombat = true;
+						}
+					}
+				}
+				else {
+					if (frappePossible.size()>0) {
+					Random rand= new Random();
+					coordonnee = frappePossible.get(rand.nextInt(frappePossible.size()));
+					for (int i = 0; i < this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.size(); i++) {
+						this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.get(i).subirDegat();
+						this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.get(i).enCombat = true;
+					}
+					for (int i = 0; i < this.populationMonstre.size(); i++) {
+						if ((this.populationMonstre.get(i).position_x == coordonnee[0]) && (this.populationMonstre.get(i).position_y == coordonnee[1])) {
+							this.populationMonstre.get(i).subirDegat();
+							this.populationMonstre.get(i).enCombat = true;
+						}
+					}
+				}
+					else {
+						this.status = "Pas d'ennemi à porté";
+					}
+				}
+			break;
+			case "gauche":
+				coordonnee = new int[2];
+				coordonnee[0] = this.hero.position_x - 1;
+				coordonnee[1] = this.hero.position_y + 0;
+				if (this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].testPresence()) {
+					for (int i = 0; i < this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.size(); i++) {
+						this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.get(i).subirDegat();
+						this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.get(i).enCombat = true;
+					}
+					for (int i = 0; i < this.populationMonstre.size(); i++) {
+						if ((this.populationMonstre.get(i).position_x == coordonnee[0]) && (this.populationMonstre.get(i).position_y == coordonnee[1])) {
+							this.populationMonstre.get(i).subirDegat();
+							this.populationMonstre.get(i).enCombat = true;
+						}
+					}
+				}
+				else {
+					if (frappePossible.size()>0) {
+					Random rand= new Random();
+					coordonnee = frappePossible.get(rand.nextInt(frappePossible.size()));
+					for (int i = 0; i < this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.size(); i++) {
+						this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.get(i).subirDegat();
+						this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.get(i).enCombat = true;
+					}
+					for (int i = 0; i < this.populationMonstre.size(); i++) {
+						if ((this.populationMonstre.get(i).position_x == coordonnee[0]) && (this.populationMonstre.get(i).position_y == coordonnee[1])) {
+							this.populationMonstre.get(i).subirDegat();
+							this.populationMonstre.get(i).enCombat = true;
+						}
+					}
+				}
+					else {
+						this.status = "Pas d'ennemi à porté";
+					}
+				}
+			break;
+			case "droite":
+				coordonnee = new int[2];
+				coordonnee[0] = this.hero.position_x + 1;
+				coordonnee[1] = this.hero.position_y + 0;
+				if (this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].testPresence()) {
+					for (int i = 0; i < this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.size(); i++) {
+						this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.get(i).subirDegat();
+						this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.get(i).enCombat = true;
+					}
+					for (int i = 0; i < this.populationMonstre.size(); i++) {
+						if ((this.populationMonstre.get(i).position_x == coordonnee[0]) && (this.populationMonstre.get(i).position_y == coordonnee[1])) {
+							this.populationMonstre.get(i).subirDegat();
+							this.populationMonstre.get(i).enCombat = true;
+						}
+					}
+				}
+				else {
+					if (frappePossible.size()>0) {
+					Random rand= new Random();
+					coordonnee = frappePossible.get(rand.nextInt(frappePossible.size()));
+					for (int i = 0; i < this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.size(); i++) {
+						this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.get(i).subirDegat();
+						this.labyrinthe.laby[coordonnee[1]][coordonnee[0]].population.get(i).enCombat = true;
+					}
+					for (int i = 0; i < this.populationMonstre.size(); i++) {
+						if ((this.populationMonstre.get(i).position_x == coordonnee[0]) && (this.populationMonstre.get(i).position_y == coordonnee[1])) {
+							this.populationMonstre.get(i).subirDegat();
+							this.populationMonstre.get(i).enCombat = true;
+						}
+					}
+				}
+					else {
+						this.status = "Pas d'ennemi à porté";
+					}
+				}
+			break;
+		}
+	}
 }
