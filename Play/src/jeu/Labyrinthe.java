@@ -40,7 +40,7 @@ public Labyrinthe ()throws Erreurjeu {
 
     boolean a=true;
     while (!err) {
-    		try {
+    	
     	    System.out.println("Longueur du labyrinthe ? ");
     	    String longue = myObj.nextLine();
     	    System.out.println("Largeur du labyrinthe ? ");
@@ -51,15 +51,12 @@ public Labyrinthe ()throws Erreurjeu {
     	    	
     	    	throw new Erreurjeu(" indice invalide");
     	    	
-    	    }
     	    	
-    	    
+    	    	
+    	    }
     	    else
     	    	err = true;
     	}
-    		catch(Exception e) {
-    			System.out.println("coordonnées non valide");}	
-    		}
     	    
 
     	
