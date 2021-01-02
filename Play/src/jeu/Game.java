@@ -39,11 +39,9 @@ public class Game {
 		this.moniteur.addKeyListener( new KeyAdapter() {
 			
 			public void keyTyped( KeyEvent e) {
-				if (Game.this.hero.testVivant()) {
-					Game.this.deplacementHero(String.valueOf(e.getKeyChar()));
-					Game.this.deplacementMonstre();
-					Game.this.affichage();
-				}
+				Game.this.deplacementHero(String.valueOf(e.getKeyChar()).toLowerCase());
+				Game.this.deplacementMonstre();
+				Game.this.affichage();
 			}
 		});
 		this.status = "";
@@ -60,11 +58,9 @@ public class Game {
 		this.moniteur.addKeyListener( new KeyAdapter() {
 			
 			public void keyTyped( KeyEvent e) {
-				if (Game.this.hero.testVivant()) {
-					Game.this.deplacementHero(String.valueOf(e.getKeyChar()));
-					Game.this.deplacementMonstre();
-					Game.this.affichage();
-				}
+				Game.this.deplacementHero(String.valueOf(e.getKeyChar()));
+				Game.this.deplacementMonstre();
+				Game.this.affichage();
 			}
 		});
 	}
@@ -247,11 +243,9 @@ this.affichage();
 		this.moniteur.addKeyListener( new KeyAdapter() {
 			
 			public void keyTyped( KeyEvent e) {
-				if (Game.this.hero.testVivant()) {
-					Game.this.deplacementHero(String.valueOf(e.getKeyChar()));
-					Game.this.deplacementMonstre();
-					Game.this.affichage();
-				}
+				Game.this.deplacementHero(String.valueOf(e.getKeyChar()));
+				Game.this.deplacementMonstre();
+				Game.this.affichage();
 			}
 		});
 	System.out.println("le jeu commence");
@@ -399,11 +393,9 @@ this.affichage();
 		this.moniteur.addKeyListener( new KeyAdapter() {
 			
 			public void keyTyped( KeyEvent e) {
-				if (Game.this.hero.testVivant()) {
-					Game.this.deplacementHero(String.valueOf(e.getKeyChar()));
-					Game.this.deplacementMonstre();
-					Game.this.affichage();
-				}
+				Game.this.deplacementHero(String.valueOf(e.getKeyChar()));
+				Game.this.deplacementMonstre();
+				Game.this.affichage();
 			}
 		});
 	}

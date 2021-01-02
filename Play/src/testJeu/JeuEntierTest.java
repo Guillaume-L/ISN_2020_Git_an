@@ -9,12 +9,10 @@ import jeu.*;
 import org.junit.Before;
 import org.junit.Test;
 
-
-
 public class JeuEntierTest {
 	public Heros perso1; 
 	public Heros perso2; 
-	public Heros perso4;
+	public Heros perso4;	
 	public Personnage perso3;
 	public Labyrinthe laby1; 
 	public Parcelle parcelle1;
@@ -44,7 +42,7 @@ public class JeuEntierTest {
 		perso1 = new Heros();
 		perso2 = new Heros(1,2,2);
 		perso4=new Heros(1,8,8);
-		game2 = new Game(laby1,perso4,popMonstre1);
+		game2=new Game(laby1,perso4,popMonstre1);
 		game1 = new Game(laby1,perso1,popMonstre1);
 		game3 = new Game(laby1,perso2,popMonstre1);
 	
@@ -135,7 +133,7 @@ public class JeuEntierTest {
 	
 	@Test
 	public void testTestDeplacement() {
-		assertFalse(perso2.test_deplacement(laby1,2,2)); //Probleme
+		assertFalse(perso2.test_deplacement(laby1,2,2)); 
 		assertTrue(perso2.test_deplacement(laby1,3,2));
 		assertFalse(perso2.test_deplacement(laby1,11,2));
 		assertFalse(perso2.test_deplacement(laby1,2,11));
@@ -144,6 +142,34 @@ public class JeuEntierTest {
 	}
 	
 		//testVivant() de Personnage
+	@Test 
+	public void testdeplacementmurhaut() {
+		game1.deplacementHero("z");
+		String a=game1.status;
+		assertTrue(a.equalsIgnoreCase("Le héro bloque contre un mur"));
+		
+	}
+	@Test 
+	public void testdeplacementmurgauche() {
+		game1.deplacementHero("q");
+		String b=game1.status;
+		assertTrue(b.equalsIgnoreCase("Le héro bloque contre un mur"));
+	}
+	@Test 
+	public void testdeplacementmurbas() {
+		game2.deplacementHero("s");
+		String c=game2.status;
+		
+		String dh="Le héro bloque contre un mur";
+		assertTrue(c.equalsIgnoreCase(dh));
+	}
+		@Test 
+		public void testdeplacementmurdroite() {
+		
+			game2.deplacementHero("d");
+			String c=game2.status;
+			assertTrue(c.equalsIgnoreCase("Le héro bloque contre un mur"));
+		}	
 	
 	@Test
 	public void testTestVivant() {
@@ -163,34 +189,6 @@ public class JeuEntierTest {
 		assertFalse(perso2.testVivant());
 		
 	}
-	@Test 
-    public void testdeplacementmurhaut() {
-        game1.deplacementHero("z");
-        String a=game1.status;
-        assertTrue(a.equalsIgnoreCase("Le héro bloque contre un mur"));
-
-    }
-    @Test 
-    public void testdeplacementmurgauche() {
-        game1.deplacementHero("q");
-        String b=game1.status;
-        assertTrue(b.equalsIgnoreCase("Le héro bloque contre un mur"));
-    }
-    @Test 
-    public void testdeplacementmurbas() {
-        game2.deplacementHero("s");
-        String c=game2.status;
-
-        String dh="Le héro bloque contre un mur";
-        assertTrue(c.equalsIgnoreCase(dh));
-    }
-        @Test 
-        public void testdeplacementmurdroite() {
-
-            game2.deplacementHero("d");
-            String c=game2.status;
-            assertTrue(c.equalsIgnoreCase("Le héro bloque contre un mur"));
-        }
 	//Sol
 	
 	
@@ -353,10 +351,10 @@ public class JeuEntierTest {
 	
 		//Creaton Labyrinthe
 	
-	@Test (expected=Erreurjeu.class)
-	public void testCreationLabyrinthe()throws Exception {
-		Labyrinthe laby4=new Labyrinthe();
-	}
+//	@Test (expected=Erreurjeu.class)
+//	public void testCreationLabyrinthe()throws Exception {
+//		Labyrinthe laby4=new Labyrinthe();
+//	}
 	
 	//Game
 	
@@ -369,24 +367,7 @@ public class JeuEntierTest {
 	
 		//deplacementHero() de Game
 	
-	@Test
-	public void testDeplacementHero() {
-		game1.deplacementHero("z");
-		assertSame(perso1.position_x,1);
-		assertSame(perso1.position_y,1);
-		game1.deplacementHero("s");
-		assertSame(perso1.position_x,1);
-		assertSame(perso1.position_y,2);
-		game1.deplacementHero("z");
-		assertSame(perso1.position_x,1);
-		assertSame(perso1.position_y,1);
-		game1.deplacementHero("d");
-		assertSame(perso1.position_x,2);
-		assertSame(perso1.position_y,1);
-		game1.deplacementHero("q");
-		assertSame(perso1.position_x,1);
-		assertSame(perso1.position_y,1);
-	}
+	
 	
 		//peuplement() de Game
 	
@@ -422,7 +403,281 @@ public class JeuEntierTest {
 //	public void testDeclencherEffetCaseGame() {
 //		
 //	}
+	
+	
+	
+	//**********Scénario "Déplacement"**********
+	
+	//Scénario nominal 
+	
+	@Test
+	public void testDeplacementHeros() {
+		game3.deplacementHero("z");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,1);
+		game3.deplacementHero("s");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		game3.deplacementHero("d");
+		assertSame(perso2.position_x,3);
+		assertSame(perso2.position_y,2);
+		game3.deplacementHero("q");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+	}
+	
+	//Scénarios alternatifs
+	
+	//Au départ le héros est à la position (2,2)
+	//A
+	@Test
+	public void testDeplacementHerosA1() {
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+	}
+	
+	//B
+	@Test
+	public void testDeplacementHerosB1() {
+		game3.deplacementHero("z");
+		game3.deplacementHero("s");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		game3.deplacementHero("d");
+		game3.deplacementHero("q");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+	}
+	
+	//C
+	@Test
+	public void testDeplacementHerosC1() {
+		game3.deplacementHero("g");
+		game3.deplacementHero("h");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+	}
+	
+	//D
+	@Test
+	public void testDeplacementHerosD1() {
 		
+		//3 touches en même temps
+		game3.deplacementHero("z");
+		game3.deplacementHero("s");
+		game3.deplacementHero("d");
+		assertSame(perso2.position_x,3);
+		assertSame(perso2.position_y,2);
 		
+		game3.deplacementHero("z");
+		game3.deplacementHero("s");
+		game3.deplacementHero("q");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("z");
+		game3.deplacementHero("q");
+		game3.deplacementHero("d");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,1);
+		
+		game3.deplacementHero("q");
+		game3.deplacementHero("s");
+		game3.deplacementHero("d");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		//plus de 3 touches
+		game3.deplacementHero("z");
+		game3.deplacementHero("s");
+		game3.deplacementHero("d");
+		game3.deplacementHero("q");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("z");
+		game3.deplacementHero("s");
+		game3.deplacementHero("q");
+		game3.deplacementHero("d");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("z");
+		game3.deplacementHero("q");
+		game3.deplacementHero("d");
+		game3.deplacementHero("s");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("z");
+		game3.deplacementHero("q");
+		game3.deplacementHero("s");
+		game3.deplacementHero("d");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("z");
+		game3.deplacementHero("d");
+		game3.deplacementHero("q");
+		game3.deplacementHero("s");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("z");
+		game3.deplacementHero("d");
+		game3.deplacementHero("s");
+		game3.deplacementHero("q");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("q");
+		game3.deplacementHero("z");
+		game3.deplacementHero("s");
+		game3.deplacementHero("d");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("q");
+		game3.deplacementHero("z");
+		game3.deplacementHero("d");
+		game3.deplacementHero("s");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("q");
+		game3.deplacementHero("s");
+		game3.deplacementHero("z");
+		game3.deplacementHero("d");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("q");
+		game3.deplacementHero("s");
+		game3.deplacementHero("d");
+		game3.deplacementHero("z");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("q");
+		game3.deplacementHero("d");
+		game3.deplacementHero("z");
+		game3.deplacementHero("s");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("q");
+		game3.deplacementHero("d");
+		game3.deplacementHero("s");
+		game3.deplacementHero("z");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("s");
+		game3.deplacementHero("z");
+		game3.deplacementHero("q");
+		game3.deplacementHero("d");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("s");
+		game3.deplacementHero("z");
+		game3.deplacementHero("d");
+		game3.deplacementHero("q");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("s");
+		game3.deplacementHero("q");
+		game3.deplacementHero("z");
+		game3.deplacementHero("d");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("s");
+		game3.deplacementHero("q");
+		game3.deplacementHero("d");
+		game3.deplacementHero("z");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("s");
+		game3.deplacementHero("d");
+		game3.deplacementHero("z");
+		game3.deplacementHero("q");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("s");
+		game3.deplacementHero("d");
+		game3.deplacementHero("q");
+		game3.deplacementHero("z");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("d");
+		game3.deplacementHero("z");
+		game3.deplacementHero("q");
+		game3.deplacementHero("s");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("d");
+		game3.deplacementHero("z");
+		game3.deplacementHero("s");
+		game3.deplacementHero("q");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("d");
+		game3.deplacementHero("s");
+		game3.deplacementHero("q");
+		game3.deplacementHero("z");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("d");
+		game3.deplacementHero("s");
+		game3.deplacementHero("z");
+		game3.deplacementHero("q");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("d");
+		game3.deplacementHero("q");
+		game3.deplacementHero("z");
+		game3.deplacementHero("s");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+		
+		game3.deplacementHero("d");
+		game3.deplacementHero("q");
+		game3.deplacementHero("s");
+		game3.deplacementHero("z");
+		assertSame(perso2.position_x,2);
+		assertSame(perso2.position_y,2);
+	}
+
+	//Scénarios exceptionnels 
+	
+	//E1
+	//Si le joueur quitte le jeu on ne peut pas tester
+	
+	//E2
+	//Difficile de similer des tests d'affichage
+	
+	
+	//**********Scénario "Vérification des cases"**********
+	
+	//Scénario nominal
+	
+	
+	
+	//Scénarios alternatifs
+	
+	//A1
+	
+	//voir les test plus haut dans le programme
+	
+	//Scénarios exceptionnels
 	
 }
