@@ -16,8 +16,9 @@ public class Main {
 		String nomFichier = new String();
 		boolean continuer = true;
 		Game jeu;
+		
 		try {
-			jeu = new Game("niveau2");
+			jeu = new Game("niveau1");
 			while (!(choix.equalsIgnoreCase("oui") || choix.equalsIgnoreCase("non"))) {
 				System.out.println("Souhaitez-vous creer votre propre niveau ?");
 				System.out.println("Répondez 'oui ou 'non' dans la console.");
