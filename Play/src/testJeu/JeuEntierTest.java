@@ -13,39 +13,65 @@ public class JeuEntierTest {
 	public Heros perso1; 
 	public Heros perso2; 
 	public Heros perso4;	
+	public Heros heros3;
 	public Personnage perso3;
 	public Labyrinthe laby1; 
 	public Parcelle parcelle1;
 	public Game game1;
 	public Game game2;
 	public Game game3;
+	public Game game4; //Heros pdv negatifs
+	public Game game5; //Heros pdv negatifs
+	
+	public Game game8;
 	public Monstre monstre1;
 	public Monstre monstre2; 
 	public Monstre monstre3;
 	public Monstre monstre4;
+	
+	public Monstre monstre5; //Monstre position negative
+	public Monstre monstre6; //Monstre position negative
+	public Monstre monstre7; //Monstre position mur
+	
+	public Monstre monstre8; //Monstre collé au héros
+	public Monstre monstre9; //Monstre collé au héros
+	
 	public ArrayList<Monstre> popMonstre1; 
+	public ArrayList<Monstre> popMonstre2;
 	
 	@Before      
 	public void init()     {
 		popMonstre1 = new ArrayList<Monstre>(); 
+		popMonstre2 = new ArrayList<Monstre>();
 		
 		monstre1 = new Monstre(1,5,5);
 		monstre2 = new Monstre(1,4,4); 
 		monstre3 = new Monstre(1,6,6); 
 		
+		monstre5 = new Monstre(1,-3,4); //Monstre position negative
+		monstre6 = new Monstre(1,3,-4); //Monstre position negative
+		monstre7 = new Monstre(1,1,0); //Monsre position mur
+		
+		monstre8 = new Monstre(1,1,2); //Monstre collé au héros
+		monstre9 = new Monstre(1,3,2); //Monstre collé au héros
+		
 		popMonstre1.add(monstre1);
 		popMonstre1.add(monstre2);
 		popMonstre1.add(monstre3);
+		
 		
 		laby1 = new Labyrinthe(10,10);
 		
 		perso1 = new Heros();
 		perso2 = new Heros(1,2,2);
+		heros3 = new Heros(-2,2,2);  //Heros pdv negatifs
 		perso4=new Heros(1,8,8);
-		game2=new Game(laby1,perso4,popMonstre1);
+		game2 = new Game(laby1,perso4,popMonstre1);
 		game1 = new Game(laby1,perso1,popMonstre1);
 		game3 = new Game(laby1,perso2,popMonstre1);
-	
+		
+		game4 = new Game(laby1,heros3,popMonstre1); //Heros pdv negatifs
+		
     } 
 	
 	//Fantome
@@ -137,7 +163,7 @@ public class JeuEntierTest {
 		//testDeplacement() de Personnage
 	
 	@Test
-	public void testTestDeplacement() {
+	public void testTestDeplacement() {        
 		assertFalse(perso2.test_deplacement(laby1,2,2)); 
 		assertTrue(perso2.test_deplacement(laby1,3,2));
 		assertFalse(perso2.test_deplacement(laby1,11,2));
@@ -474,38 +500,6 @@ public void testmonstrepasmouvement()throws Exception {
 	assertSame(y,stay[1]);
 	
 	
-}@Test 
-public void testMonstresCollesHerosFichier() throws Exception {
-    int [] tab = new int[2];
-    Game jeu=new Game("testMonstresCollesHeros") ;
-    ArrayList<Monstre> monstre= jeu.populationMonstre;
-    Monstre a=monstre.get(0);
-    Monstre b=monstre.get(1);
-    jeu.attaque();
-    if (a.point_de_vie==0) {
-        tab[0]+=1;
-    } else if (b.point_de_vie==0) {
-        tab[1]+=1;
-    }
-    int compteur = 0; 
-    boolean bool = true;
-    while (compteur < 100 && bool) {
-        jeu=new Game("testMonstresCollesHeros") ;
-        monstre= jeu.populationMonstre;
-        a=monstre.get(0);
-        b=monstre.get(1);
-        jeu.attaque();
-        if (a.point_de_vie==0) {
-            tab[0]+=1;
-        } else if (b.point_de_vie==0) {
-            tab[1]+=1;
-        }
-        if (tab[0] != 0 && tab[1]!=0) {
-            bool = false; 
-        }
-        compteur+=1;
-    }
-    assertSame(bool,false);
 }
 	//D
 	@Test
@@ -728,5 +722,146 @@ public void testMonstresCollesHerosFichier() throws Exception {
 	//voir les test plus haut dans le programme
 	
 	//Scénarios exceptionnels
+	
+	
+	//**********Scénarios "Génération Labyrinthe"**********
+	
+	//Héros avec pdv négatif
+	@Test
+	public void testHerosPdvNegatifs() {
+		Game game7 = new Game(laby1,heros3,popMonstre2);
+		assertNotSame(game7.hero.point_de_vie,0);
+		assertFalse(game7.hero.testVivant());
+	}
+	
+	@Test (expected = ArrayIndexOutOfBoundsException.class)
+	public void testMonstrePositionNegative() throws Exception{
+		assertTrue(popMonstre2.isEmpty());
+		popMonstre2.add(monstre5); //Monstre position negative
+		popMonstre2.add(monstre6); //Monstre position negative
+		Game game7 = new Game(laby1,perso2,popMonstre2);
+		assertFalse(game7.populationMonstre.isEmpty());            
+	}
+	
+//	@Test
+//	public void testMonstrePositionMur() {
+//		assertTrue(popMonstre2.isEmpty());
+//		popMonstre2.add(monstre7); //Monstre position mur
+//		assertFalse(popMonstre2.isEmpty());            
+//		assertTrue(monstre7.testVivant());   //Attention le monstre est quand meme ajouté
+//	}
+	
+	@Test
+	public void testMonstresCollesHeros() {
+		popMonstre1.add(monstre8);
+		popMonstre1.add(monstre9);
+		Game game7 = new Game(laby1,perso2,popMonstre1);
+		assertFalse(game7.populationMonstre.isEmpty());
+		assertTrue(game7.hero.testVivant());
+	}
+	
+	//**********Scénarios "Génération Labyrinthe à partir d'un fichier"**********
+	@Test
+	public void testHerosPdvNegatifsFichier() throws Exception {
+		game5 = new Game("testNiveauPdvHerosNegatif");
+		int pdv = game5.hero.point_de_vie;
+		assertNotSame(pdv,0);
+		assertFalse(game5.hero.testVivant());
+	}
+	
+	@Test (expected = ArrayIndexOutOfBoundsException.class)
+	public void testMonstrePostionNegativeFichier() throws Exception {
+		game5 = new Game("testNiveauMonstrePositionNegative"); 
+	}
+	
+	@Test (expected = Exception.class)
+	public void testMonstrePostionMur() throws Exception {
+		game5 = new Game("testNiveauMonstrePostionMur"); 
+	}
+	
+	@Test 
+	public void testMonstresCollesHerosFichier() throws Exception {
+		int [] tab = new int[2];
+		Game jeu=new Game("testMonstresCollesHeros") ;     
+		ArrayList<Monstre> monstre= jeu.populationMonstre;     
+		Monstre a=monstre.get(0);
+		Monstre b=monstre.get(1);
+		jeu.attaque();
+		if (a.point_de_vie==0) {
+			tab[0]+=1;
+		} else if (b.point_de_vie==0) {
+			tab[1]+=1;
+		}
+		int compteur = 0; 
+		boolean bool = true;
+		while (compteur < 100 && bool) {
+			jeu=new Game("testMonstresCollesHeros") ;     
+			monstre= jeu.populationMonstre;     
+			a=monstre.get(0);
+			b=monstre.get(1);
+			jeu.attaque();
+			if (a.point_de_vie==0) {
+				tab[0]+=1;
+			} else if (b.point_de_vie==0) {
+				tab[1]+=1;
+			}
+			if (tab[0] != 0 && tab[1]!=0) {
+				bool = false; 
+			}
+			compteur+=1;
+		}
+		assertSame(bool,false);
+	}
+	
+	@Test 
+	public void testMonstresCollesHerosMemeTemps() throws Exception {
+		int [] tab = new int[1];
+		Game jeu=new Game("testMonstresCollesHeros") ;     
+		ArrayList<Monstre> monstre= jeu.populationMonstre;     
+		Monstre a=monstre.get(0);
+		Monstre b=monstre.get(1);
+		jeu.attaque();
+		if (a.point_de_vie==0 && b.point_de_vie==0) {
+			tab[0]+=1;
+		} 
+		int compteur = 0; 
+		boolean bool = true;
+		while (compteur < 30 && bool) {
+			jeu=new Game("testMonstresCollesHeros") ;     
+			monstre= jeu.populationMonstre;     
+			a=monstre.get(0);
+			b=monstre.get(1);
+			jeu.attaque();
+			if (a.point_de_vie==0 && b.point_de_vie==0) {
+				tab[0]+=1;
+			} 
+			if (tab[0] != 0) {
+				bool = false; 
+			}
+			compteur+=1;
+		}
+		assertNotSame(bool,false);
+	}
+	
+	@Test
+	public void testCombatNormal() throws Exception {
+		Game jeu=new Game("testNiveauCombatNormal") ;     
+		ArrayList<Monstre> monstre= jeu.populationMonstre;     
+		Monstre a=monstre.get(0);
+		assertNotSame(a.point_de_vie,0);
+		jeu.attaque(); 
+		assertSame(a.point_de_vie,0); 
+	}
+	
+	@Test
+	public void testCombatFantomeMur() throws Exception {
+		Game jeu=new Game("testNiveauCombatFantomeMur") ;     
+		ArrayList<Monstre> monstre= jeu.populationMonstre;     
+		Monstre a=monstre.get(0);
+		assertNotSame(a.point_de_vie,0);
+		jeu.attaque(); 
+		assertNotSame(a.point_de_vie,0); 
+	}
+	
 	
 }
