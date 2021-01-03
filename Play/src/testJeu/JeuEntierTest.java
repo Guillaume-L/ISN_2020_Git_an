@@ -474,6 +474,38 @@ public void testmonstrepasmouvement()throws Exception {
 	assertSame(y,stay[1]);
 	
 	
+}@Test 
+public void testMonstresCollesHerosFichier() throws Exception {
+    int [] tab = new int[2];
+    Game jeu=new Game("testMonstresCollesHeros") ;
+    ArrayList<Monstre> monstre= jeu.populationMonstre;
+    Monstre a=monstre.get(0);
+    Monstre b=monstre.get(1);
+    jeu.attaque();
+    if (a.point_de_vie==0) {
+        tab[0]+=1;
+    } else if (b.point_de_vie==0) {
+        tab[1]+=1;
+    }
+    int compteur = 0; 
+    boolean bool = true;
+    while (compteur < 100 && bool) {
+        jeu=new Game("testMonstresCollesHeros") ;
+        monstre= jeu.populationMonstre;
+        a=monstre.get(0);
+        b=monstre.get(1);
+        jeu.attaque();
+        if (a.point_de_vie==0) {
+            tab[0]+=1;
+        } else if (b.point_de_vie==0) {
+            tab[1]+=1;
+        }
+        if (tab[0] != 0 && tab[1]!=0) {
+            bool = false; 
+        }
+        compteur+=1;
+    }
+    assertSame(bool,false);
 }
 	//D
 	@Test
