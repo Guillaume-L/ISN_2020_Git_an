@@ -743,13 +743,13 @@ public void testmonstrepasmouvement()throws Exception {
 		assertFalse(game7.populationMonstre.isEmpty());            
 	}
 	
-//	@Test
-//	public void testMonstrePositionMur() {
-//		assertTrue(popMonstre2.isEmpty());
-//		popMonstre2.add(monstre7); //Monstre position mur
-//		assertFalse(popMonstre2.isEmpty());            
-//		assertTrue(monstre7.testVivant());   //Attention le monstre est quand meme ajouté
-//	}
+	@Test
+	public void testMonstrePositionMur() {
+		assertTrue(popMonstre2.isEmpty());
+		popMonstre2.add(monstre7); //Monstre position mur
+		Game game7 = new Game(laby1,perso2,popMonstre2);
+		assertFalse(game7.populationMonstre.isEmpty());   //tester si le monstre est bien dans le mur         
+	}
 	
 	@Test
 	public void testMonstresCollesHeros() {
