@@ -66,7 +66,12 @@ public class JeuEntierTest {
 		comparaisonOld[1] = old_y;
 		assertNotSame(comparaisonNew, comparaisonOld);
 	}
-	
+	@Test 
+	public void double_depla()
+	{game1.deplacementHero("sd");
+	System.out.println(perso1.position_x);
+	assertSame(perso1.position_x,1);
+	}
 	//Monstre 
 	
 		//Constructeur
@@ -457,7 +462,19 @@ public class JeuEntierTest {
 		assertSame(perso2.position_x,2);
 		assertSame(perso2.position_y,2);
 	}
+@Test
+public void testmonstrepasmouvement()throws Exception {
+	Game jeu=new Game("testmonstrestuck") ;
+	ArrayList<Monstre> monstre= jeu.populationMonstre;
+	Monstre a=monstre.get(0);
+	int x=a.position_x;
+	int y=a.position_y;
+	int[] stay=a.deplacement(jeu.labyrinthe);
+	assertSame(x,stay[0]);
+	assertSame(y,stay[1]);
 	
+	
+}
 	//D
 	@Test
 	public void testDeplacementHerosD1() {
@@ -656,7 +673,7 @@ public class JeuEntierTest {
 		assertSame(perso2.position_x,2);
 		assertSame(perso2.position_y,2);
 	}
-
+	
 	//Scénarios exceptionnels 
 	
 	//E1

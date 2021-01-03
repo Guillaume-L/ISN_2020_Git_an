@@ -1,0 +1,14 @@
+Labyrinthe 10 11
+Heros 2 5 1
+Monstre 1 8 8
+Mur 7 1
+Mur 7 2
+Mur 7 3
+Mur 7 4
+Mur 8 7
+Mur 7 8
+Mur 8 9
+Tresor 4 6 false
+Piege 3 2 
+Passage 1 4 8 1
+Magique 8 4

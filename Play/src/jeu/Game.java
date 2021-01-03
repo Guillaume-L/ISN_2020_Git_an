@@ -19,9 +19,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Game {
-	Labyrinthe labyrinthe;
+	public Labyrinthe labyrinthe;
 	public Heros hero;
-	ArrayList<Monstre> populationMonstre;
+	public ArrayList<Monstre> populationMonstre;
 	Moniteur moniteur;
 	public String status;
 
