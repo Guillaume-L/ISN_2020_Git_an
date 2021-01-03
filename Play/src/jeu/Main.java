@@ -37,7 +37,7 @@ public class Main {
 								nomFichierInValide = false;
 							}
 							catch(Exception e) {
-								System.out.println("Erreur lors de la lecture du fichier");
+								
 							}
 						}
 					break;
