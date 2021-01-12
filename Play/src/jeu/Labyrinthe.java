@@ -1,5 +1,6 @@
 
 package jeu;
+import java.util.Arrays;
 import java.util.Scanner;
 public class Labyrinthe {int longueur; int largeur; Parcelle[][] laby;
 
@@ -152,6 +153,16 @@ laby=lab;}
 			}
 		laby=lab;
 	    }
+	}
+	public Labyrinthe dupliquer() {
+		Labyrinthe clone = new Labyrinthe(this.longueur, this.largeur);
+		for (int i = 0; i< this.longueur; i++) {
+			for (int j = 0; j < this.largeur; j++) {
+				clone.laby[j][i] = this.laby[j][i];
+			}
+		}
+		return clone;
+			
 	}
 
 }

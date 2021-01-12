@@ -477,7 +477,7 @@ this.affichage();
 		if (this.hero.testVivant()) {
 			for (int i = 0; i < this.populationMonstre.size(); i++) {
 				if (this.populationMonstre.get(i).testVivant()){
-					int[] nouvellePosition = this.populationMonstre.get(i).deplacement(this.labyrinthe);
+					int[] nouvellePosition = this.populationMonstre.get(i).deplacementVersHero(this.hero, this.labyrinthe);
 					this.labyrinthe.laby[this.populationMonstre.get(i).position_y][this.populationMonstre.get(i).position_x].population.clear();
 					this.populationMonstre.get(i).position_x = nouvellePosition[0];
 					this.populationMonstre.get(i).position_y = nouvellePosition[1];
