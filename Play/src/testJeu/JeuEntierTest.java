@@ -83,7 +83,7 @@ public class JeuEntierTest {
 		monstre4 = new Fantome(1,4,2); //*******Attention coordonnée y bizarre
 		int old_x = monstre4.position_x;
 		int old_y = monstre4.position_y;
-		int[] coordonnee = monstre4.deplacement(laby1);
+		int[] coordonnee = monstre4.deplacementVersHero(perso1,laby1);
 		int[] comparaisonNew = new int[2];
 		comparaisonNew[0] = coordonnee[0];
 		comparaisonNew[1] = coordonnee[1];
@@ -113,7 +113,7 @@ public class JeuEntierTest {
 		monstre4 = new Monstre(1,4,2); //*******Attention coordonnée y bizarre
 		int old_x = monstre4.position_x;
 		int old_y = monstre4.position_y;
-		int[] coordonnee = monstre4.deplacement(laby1);
+		int[] coordonnee = monstre4.deplacementVersHero(perso1,laby1);
 		int[] comparaisonNew = new int[2];
 		comparaisonNew[0] = coordonnee[0];
 		comparaisonNew[1] = coordonnee[1];
@@ -495,7 +495,7 @@ public void testmonstrepasmouvement()throws Exception {
 	Monstre a=monstre.get(0);
 	int x=a.position_x;
 	int y=a.position_y;
-	int[] stay=a.deplacement(jeu.labyrinthe);
+	int[] stay=a.deplacementVersHero(jeu.hero,jeu.labyrinthe);
 	assertSame(x,stay[0]);
 	assertSame(y,stay[1]);
 	
@@ -863,5 +863,87 @@ public void testmonstrepasmouvement()throws Exception {
 		assertNotSame(a.point_de_vie,0); 
 	}
 	
+@Test
+public void testnontriggerfin() throws Exception{
 	
+	Game jeu=new Game("testmonstremarchecase") ;     
+	ArrayList<Monstre> monstre= jeu.populationMonstre;     
+	Monstre a=monstre.get(0);
+	int old_x = a.position_x;
+	int old_y = a.position_y;
+	jeu.deplacementMonstre();
+	int new_x = a.position_x;
+	int new_y = a.position_y;
+	int[] comparaisonNew = new int[2];
+	comparaisonNew[0] = new_x;
+	comparaisonNew[1] = new_y;
+	int[] comparaisonOld = new int[2];
+	comparaisonOld[0] = old_x;
+	comparaisonOld[1] = old_y;
+	int[] comparaisonTresor = new int[2];
+	comparaisonTresor[0] = 5;
+	comparaisonTresor[1] = 4;
+	assertNotSame(comparaisonNew, comparaisonOld);
+	
+	
+	
+	assertNotSame(jeu.status,"Victoire : le héro a récupéré le trésor");
+	
+	
+}
+@Test
+public void testnontriggerpiege() throws Exception{
+	
+	Game jeu=new Game("testmonstremarchecasepiege") ;     
+	ArrayList<Monstre> monstre= jeu.populationMonstre;     
+	Monstre a=monstre.get(0);
+	int old_x = a.position_x;
+	int old_y = a.position_y;
+	jeu.deplacementMonstre();
+	int new_x = a.position_x;
+	int new_y = a.position_y;
+	int pdv_av =a.point_de_vie;
+	int[] comparaisonNew = new int[2];
+	comparaisonNew[0] = new_x;
+	comparaisonNew[1] = new_y;
+	int[] comparaisonOld = new int[2];
+	comparaisonOld[0] = old_x;
+	comparaisonOld[1] = old_y;
+	int[] comparaisonPiege = new int[2];
+	comparaisonPiege[0] = 5;
+	comparaisonPiege[1] = 4;
+	assertNotSame(comparaisonNew, comparaisonOld);
+	System.out.println(comparaisonNew[0]);
+	System.out.println(comparaisonNew[1]);
+	
+	int pdv_ap=a.point_de_vie;
+	assertEquals(comparaisonNew[0],comparaisonPiege[0]);
+	assertEquals(comparaisonNew[1],comparaisonPiege[1]);
+	assertEquals(pdv_ap,pdv_av);
+	
+	
+}
+@Test
+public void testdeplacementmonstrecoin() throws Exception{
+	
+	Game jeu=new Game("testmonstremarchecoin") ;     
+	ArrayList<Monstre> monstre= jeu.populationMonstre;     
+	Monstre a=monstre.get(0);
+	int old_x = a.position_x;
+	int old_y = a.position_y;
+	jeu.deplacementMonstre();
+	int new_x = a.position_x;
+	int new_y = a.position_y;
+	System.out.println(new_x);
+	
+	System.out.println(old_x);
+	System.out.println(new_y);
+	System.out.println(old_y);
+	int[] comparaisonNew = new int[2];
+	comparaisonNew[0] = new_x;
+	comparaisonNew[1] = new_y;
+	int[] comparaisonOld = new int[2];
+	comparaisonOld[0] = old_x;
+	comparaisonOld[1] = old_y;
+	assertNotSame(comparaisonOld,comparaisonNew);}
 }
