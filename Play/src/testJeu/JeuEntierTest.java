@@ -934,11 +934,6 @@ public void testdeplacementmonstrecoin() throws Exception{
 	jeu.deplacementMonstre();
 	int new_x = a.position_x;
 	int new_y = a.position_y;
-	System.out.println(new_x);
-	
-	System.out.println(old_x);
-	System.out.println(new_y);
-	System.out.println(old_y);
 	int[] comparaisonNew = new int[2];
 	comparaisonNew[0] = new_x;
 	comparaisonNew[1] = new_y;
