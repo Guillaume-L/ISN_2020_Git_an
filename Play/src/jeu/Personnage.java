@@ -17,7 +17,7 @@ public abstract class Personnage {
 	public void subirDegat() {
 		this.point_de_vie = Math.max(this.point_de_vie - 1, 0);
 	}
-	public int[] deplacementAleatoire(Labyrinthe L) {
+	public int[] deplacement(Labyrinthe L) {
 //		boolean deplac;
 //		int[] coord = new int[2];
 		int[] nouvellePosition = new int[2];
