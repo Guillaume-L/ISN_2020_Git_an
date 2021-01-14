@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class JeuEntierTest {
-	//public Heros heros1; 
+	public Heros heros1; 
 	//public Heros heros2; 
 	//public Heros heros4;	
 	//public Heros heros3;
@@ -61,7 +61,7 @@ public class JeuEntierTest {
 		//laby1 = new Labyrinthe(10,10);
 		
 		//heros1 = new Heros();
-		//heros2 = new Heros(1,2,2);
+		heros1 = new Heros(1,2,2);
 		//heros3 = new Heros(-2,2,2);  //Heros pdv negatifs
 		//heros4=new Heros(1,8,8);
 		//game2 = new Game(laby1,heros4,popMonstre1);
@@ -82,7 +82,7 @@ public class JeuEntierTest {
 		Labyrinthe laby1 = new Labyrinthe(10,10);
 		int old_x = monstre4.position_x;
 		int old_y = monstre4.position_y;
-		int[] coordonnee = monstre4.deplacement(laby1);
+		int[] coordonnee = monstre4.deplacementVersHero(heros1,laby1);
 		int[] comparaisonNew = new int[2];
 		comparaisonNew[0] = coordonnee[0];
 		comparaisonNew[1] = coordonnee[1];
@@ -131,7 +131,7 @@ public class JeuEntierTest {
 		Labyrinthe laby1 = new Labyrinthe(10,10);
 		int old_x = monstre4.position_x;
 		int old_y = monstre4.position_y;
-		int[] coordonnee = monstre4.deplacement(laby1);
+		int[] coordonnee = monstre4.deplacementVersHero(heros1,laby1);
 		int[] comparaisonNew = new int[2];
 		comparaisonNew[0] = coordonnee[0];
 		comparaisonNew[1] = coordonnee[1];
@@ -618,7 +618,7 @@ public class JeuEntierTest {
 		Monstre a=monstre.get(0);
 		int x=a.position_x;
 		int y=a.position_y;
-		int[] stay=a.deplacement(jeu.labyrinthe);
+		int[] stay=a.deplacementVersHero(jeu.hero,jeu.labyrinthe);
 		assertSame(x,stay[0]);
 		assertSame(y,stay[1]);
 	
@@ -1047,21 +1047,7 @@ public class JeuEntierTest {
 //		Game game = new Game("testCasePositionInvalide");
 //	}
 	
-	@Test (expected = ArrayIndexOutOfBoundsException.class)
-	public void testDeplacementFantomeBord () {   //a finir *****************************************
-		Heros heros2 = new Heros(1,1,1);
-		ArrayList <Monstre> popMonstre2 = new ArrayList<Monstre>();
-//		Fantome fantome1 = new Fantome(1,6,7); //fantome à l'extérieur
-		Fantome fantome2 = new Fantome(1,4,4); 
-		Labyrinthe laby1 = new Labyrinthe(5,5);
-		assertTrue(popMonstre2.isEmpty());
-//		popMonstre2.add(fantome1); 
-		popMonstre2.add(fantome2);
-		Game game7 = new Game(laby1,heros2,popMonstre2);
-		game7.populationMonstre.get(0).deplacement(game7.labyrinthe);
-//		game7.populationMonstre.get(0).position_y = 6;
-//		System.out.println(game7.populationMonstre.get(0).position_x);
-	}
+
 	
 	@Test
 	public void testNonActivationMagiqueParMonstre () throws Exception {
@@ -1082,5 +1068,55 @@ public class JeuEntierTest {
 		assertNotSame(game.labyrinthe.laby[1][4].image,"monstre");
 	}
 	
+	@Test (expected = Exception.class)
+//	public void testLabyrintheSansHeros () throws Exception {
+//		
+//		Game game = new Game("testLabyrintheSansHeros"); //Retourne "Hero mal défini dans le fichier"
+//		//Affiche "Erreur lors de la lecture du fichier" dans la console
+//	}
+	
+	@Test 
+	public void testCaseSuperposee () throws Exception { //Des cases sont superposées en x = 3 et y = 2 
+		Game game = new Game("testCaseSuperposee");
+		//*assertSame(game.labyrinthe.laby[3][2].image, "magique");*//  //Dans l'interface graphique c'est la premiere case ayant la position superposée qui est prise en compte 
+		assertSame(game.labyrinthe.laby[3][2].image,"sol"); //Lors de la lecture du fichier c'est derniere case ayant la position superposée qui est prise en compte
+	}
+	
+	//Décommenter pour éviter d'afficher le message d'erreur dans la console
+//	@Test (expected = ArrayIndexOutOfBoundsException.class)
+//	public void testCoordonneeEnDehors () throws Exception {
+//		Game game = new Game("testCoordonneesEnDehors"); //Affiche "Erreur lors de la lecture du fichier" dans la console
+//	}
+//	
+//	@Test (expected = Exception.class)
+//	public void testFichierValeursManquantes () throws Exception {
+//		Game game = new Game("testFichierValeursManquantes"); //Affiche "Erreur lors de la lecture du fichier" dans la console
+//	}
+	
+	
+//	@Test (expected = ArrayIndexOutOfBoundsException.class)
+//	public void testCaseSpecialePostionInvalide () throws Exception { 
+//		Game game = new Game("testCasePositionInvalide");
+//	}
+	
+	
+	@Test
+	public void testNonActivationMagiqueParMonstre () throws Exception {
+		Game game = new Game("testNonActivationMagiqueParMonstre");
+		game.deplacementMonstre();
+		assertNotSame(game.status,"victoire");
+		assertSame(game.labyrinthe.laby[4][5].image,"sol");
+	}
+	
+	@Test
+	public void testNonActivationPassageParMonstre () throws Exception {
+		Game game = new Game("testNonActivationPassageParMonstre");
+		assertSame(game.populationMonstre.get(0).position_x,8);
+		assertSame(game.populationMonstre.get(0).position_y,8);
+		game.deplacementMonstre();
+		assertSame(game.populationMonstre.get(0).position_x,8);
+		assertSame(game.populationMonstre.get(0).position_y,7);
+		assertNotSame(game.labyrinthe.laby[1][4].image,"monstre");
+	}
 	
 }
