@@ -36,15 +36,17 @@ public class Game {
 		}
 		this.populationMonstre = populationMonstre;
 		this.moniteur = new Moniteur(labyrinthe);
+		this.status = "";
 		this.moniteur.addKeyListener( new KeyAdapter() {
 			
 			public void keyTyped( KeyEvent e) {
-				Game.this.deplacementHero(String.valueOf(e.getKeyChar()).toLowerCase());
-				Game.this.deplacementMonstre();
-				Game.this.affichage();
+				if (Game.this.hero.testVivant() && (!Game.this.status.equalsIgnoreCase("Victoire : le héro a récupéré le trésor"))){
+					Game.this.deplacementHero(String.valueOf(e.getKeyChar()).toLowerCase());
+					Game.this.deplacementMonstre();
+					Game.this.affichage();
+				}
 			}
 		});
-		this.status = "";
 	}
 	
 	public Game(Labyrinthe labyrinthe, Heros hero) {
@@ -58,9 +60,11 @@ public class Game {
 		this.moniteur.addKeyListener( new KeyAdapter() {
 			
 			public void keyTyped( KeyEvent e) {
-				Game.this.deplacementHero(String.valueOf(e.getKeyChar()));
-				Game.this.deplacementMonstre();
-				Game.this.affichage();
+				if (Game.this.hero.testVivant() && (!Game.this.status.equalsIgnoreCase("Victoire : le héro a récupéré le trésor"))){
+					Game.this.deplacementHero(String.valueOf(e.getKeyChar()).toLowerCase());
+					Game.this.deplacementMonstre();
+					Game.this.affichage();
+				}
 			}
 		});
 	}
@@ -243,9 +247,11 @@ this.affichage();
 		this.moniteur.addKeyListener( new KeyAdapter() {
 			
 			public void keyTyped( KeyEvent e) {
-				Game.this.deplacementHero(String.valueOf(e.getKeyChar()));
-				Game.this.deplacementMonstre();
-				Game.this.affichage();
+				if (Game.this.hero.testVivant() && (!Game.this.status.equalsIgnoreCase("Victoire : le héro a récupéré le trésor"))){
+					Game.this.deplacementHero(String.valueOf(e.getKeyChar()).toLowerCase());
+					Game.this.deplacementMonstre();
+					Game.this.affichage();
+				}
 			}
 		});
 	System.out.println("le jeu commence");
@@ -390,12 +396,15 @@ this.affichage();
 			throw e;
 		}
 		this.moniteur = new Moniteur(labyrinthe);
+		this.status = "";
 		this.moniteur.addKeyListener( new KeyAdapter() {
 			
 			public void keyTyped( KeyEvent e) {
-				Game.this.deplacementHero(String.valueOf(e.getKeyChar()));
-				Game.this.deplacementMonstre();
-				Game.this.affichage();
+				if (Game.this.hero.testVivant() && (!Game.this.status.equalsIgnoreCase("Victoire : le héro a récupéré le trésor"))){
+					Game.this.deplacementHero(String.valueOf(e.getKeyChar()).toLowerCase());
+					Game.this.deplacementMonstre();
+					Game.this.affichage();
+				}
 			}
 		});
 	}
@@ -468,7 +477,7 @@ this.affichage();
 		if (this.hero.testVivant()) {
 			for (int i = 0; i < this.populationMonstre.size(); i++) {
 				if (this.populationMonstre.get(i).testVivant()){
-					int[] nouvellePosition = this.populationMonstre.get(i).deplacement(this.labyrinthe);
+					int[] nouvellePosition = this.populationMonstre.get(i).deplacementVersHero(this.hero, this.labyrinthe);
 					this.labyrinthe.laby[this.populationMonstre.get(i).position_y][this.populationMonstre.get(i).position_x].population.clear();
 					this.populationMonstre.get(i).position_x = nouvellePosition[0];
 					this.populationMonstre.get(i).position_y = nouvellePosition[1];
