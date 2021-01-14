@@ -2,7 +2,7 @@
 package jeu;
 import java.util.Arrays;
 import java.util.Scanner;
-public class Labyrinthe {int longueur; int largeur; Parcelle[][] laby;
+public class Labyrinthe {int longueur; int largeur; public Parcelle[][] laby;
 
 	public Labyrinthe(int plongueur,int plargeur) {
 		longueur=plongueur;
