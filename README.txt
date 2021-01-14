@@ -19,4 +19,4 @@ cd compiler
 puis java jeu.Main
 L'interface demande si l'on souhaite créer son propre niveau. Il faut répondre par oui ou non. 
 Si l'on répond oui l'interface demande à chaque étape des données à indiquer.
-Si l'on répond non, il y a 4 niveaux disponibles (niveau1 , niveau2 , niveau3, niveau4).
+Si l'on répond non, il y a 4 niveaux disponibles (niveau1 , niveau2 , niveau3, demonstration).

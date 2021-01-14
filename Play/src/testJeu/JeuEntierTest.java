@@ -839,7 +839,6 @@ public class JeuEntierTest {
 		jeu.attaque(); 
 		assertSame(a.point_de_vie,0); 
 	}
-	
 	@Test
 	public void testCombatFantomeMur() throws Exception {
 		Game jeu=new Game("testNiveauCombatFantomeMur") ;     
