@@ -1,3 +1,7 @@
+
+Pour faire cela on a utilisé :
+jdk 13.0.2
+jre 1.8.0
 Pour compiler le programme, il faut aller dans le bon répertoire :
 pour cela on tape 
 cd Isn_2020_Git_An
@@ -20,3 +24,5 @@ puis java jeu.Main
 L'interface demande si l'on souhaite créer son propre niveau. Il faut répondre par oui ou non. 
 Si l'on répond oui l'interface demande à chaque étape des données à indiquer.
 Si l'on répond non, il y a 4 niveaux disponibles (niveau1 , niveau2 , niveau3, demonstration).
+
+
